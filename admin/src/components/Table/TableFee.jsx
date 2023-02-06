@@ -8,23 +8,28 @@ export default function DataTable({rows,columns}) {
       <DataGrid
       sx={{
         height:"auto",
+        borderRadius:"9px",
       
         "& .MuiDataGrid-columnHeaders": {
-          // color:"#009df1;",
+          color:"white",
+          borderTop: "none",
+          backgroundColor:"#08a3f6fb",
          
-          backgroundColor: "#c7c7c7",
+       
           // color:"009df1",
            
           fontSize:"17px",
           // fontWeight:900
         },
+        "& .MuiDataGrid-footerContainer": {
+          color:"white",
+          borderTop: "none",
+          backgroundColor:"#08a3f6fb",
+        },
         '.MuiDataGrid-columnSeparator': {
           display: 'none',
         },
-        "& .MuiDataGrid-footerContainer": {
-          borderTop: "none",
-          backgroundColor:"#c7c7c7",
-        },
+        
         "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
           outline: "none !important",
        },
@@ -37,6 +42,7 @@ export default function DataTable({rows,columns}) {
       "& .MuiDataGrid-cell": {
         borderBottom: "1px solid black",
       },
+      
    
       }}
         rows={rows}

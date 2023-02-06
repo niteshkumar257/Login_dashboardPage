@@ -8,13 +8,15 @@ import axios from "axios";
 
 import { useEffect } from 'react'
 
-const DashBoard = () => {
+const DashBoard = (props) => {
+
   
   const [adminName,setAdminName]=useState("");
  const adminNamehandler=(name)=>
  {
-   console.log(name);
+   
     setAdminName(name);
+    props.AdminNameHandler(name);
  }
   return (
    

@@ -99,7 +99,7 @@ const rows = [
  
 ];
 
-const SingleTeacherPage = () => {
+const SingleTeacherPage = (props) => {
   const style = {
     position: 'absolute',
     top: '50%',
@@ -255,7 +255,7 @@ const submitHandler=(e)=>
     <div className='SingleTeacherPage-container '>
     <Sidebar/>
     <div className='SingleTeacher'>
-        <Navbar/>
+        <Navbar  adminName={props.AdminName}/>
         <div className='SingleTeacher-page page-container'>
         <div className='student-info-main-container'>
     <div className='student-info-heading'>

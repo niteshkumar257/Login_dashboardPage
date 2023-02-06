@@ -105,12 +105,11 @@ Array2.map((item,index)=>
         if(it[0]=='subject_name') subjects=(it[1]);
         if(it[0]=='total_mark')   TotalMark.push(it[1]);
         if(it[0]=='mark-obtained') MarkObtained.push(it[1]);
-        
+      
    })
 
 })
 Months.sort();
-
 for(let i=0;i<subjects.length;i++)
 {
      let data={
@@ -134,30 +133,14 @@ for(let j=i;j<=i;j++)
         "Virtual_totalmark":100,
       }
       mon++;
-   
       data.arr.push(array);
    }
-  
 }
-
-
-
 subjectWisemark.push(data);
-
-  
-  
-   
 }
-
-// row part
-
 let perFormanceColumn = [];
 const columnValue = Object.entries(value[0])
-
-
 columnValue.map((it, index) => {
-
-
   if (it[0] === "subject_name") {
     it[1].map((it, index) => {
       const data = {
@@ -168,7 +151,6 @@ columnValue.map((it, index) => {
         headerAlign: "left",
         sortable: false,
         flex: 1
-
 
       }
 
@@ -196,15 +178,17 @@ let col;
 const array = [];
 value.map((item, index) => {
   let temp = Object.entries(item);
-  let row = [];
+
   const subjectArray = [];
   const markArray = [];
   temp.map((item, index) => {
 
-    if (item[0] === 'subject_name') item[1].map((it, index) => { subjectArray.push(it); })
-    if (item[0] === 'total_mark') item[1].map((it, index) => { markArray.push(it); })
+   
+    if (item[0] ==='subject_name') item[1].map((it, index) => { subjectArray.push(it); })
+    if (item[0] === 'mark-obtained') item[1].map((it, index) => { markArray.push(it); })
 
   })
+  
 
   const result = {}
   temp.map((item, index) => {
@@ -222,8 +206,10 @@ value.map((item, index) => {
       
   })
 
+
   for (let i = 0; i < markArray.length; i++) result[subjectArray[i]] = markArray[i];
-  // temp.map((item, index) => { if (item[0] === "test_id" || item[0] === 'test_data' || item[0] === 'percentage') result[item[0]] = item[1]; })
+  //  temp.map((item, index) => { if (item[0] === "test_id" || item[0] === 'test_data' || item[0] === 'percentage') result[item[0]] = item[1]; })
+
   array.push(result);
 
 })
@@ -422,7 +408,7 @@ const SingleStudentpage = (props) => {
         <Sidebar />
         <div className="singleStudent">
 
-          <Navbar />
+          <Navbar adminName={props.AdminName} />
           {/* main contaiener */}
           <div className="singleStudentPage-container page-container">
 

@@ -24,7 +24,7 @@ const Medium = [
 const Gender = [
   {value: 'Male',label: 'Male',},{value: 'Female',label: 'Female',}, {value: 'Binary',abel: 'Binary',},{value: 'Not Disclose',label: 'Not Disclose',},
 ]
-const TeachersForm = () => {
+const TeachersForm = (props) => {
   const [teacher_name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [mobile, setMobile] = useState("");
@@ -131,7 +131,7 @@ const TeachersForm = () => {
     <div className='teachers-container '>
       <Sidebar />
       <div className='teachers'>
-        <Navbar />
+        <Navbar adminName={props.AdminName}/>
         <div className='teachers-page page-container'>
 
           <div className="teacherForm-page-container">

@@ -19,8 +19,8 @@ const Navbar = (props) => {
          </div>
          <div className='navbar-items'>
             <div className="navbar-items-item">
-              <img src={AdminProfile}></img>
-                <span>{props.adminName}</span>
+            
+                <span>Hi {props.adminName}</span>
             </div>
          </div>
      </div>

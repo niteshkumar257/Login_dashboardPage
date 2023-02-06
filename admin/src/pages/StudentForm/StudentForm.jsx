@@ -128,7 +128,7 @@ const Gender = [
 
 ]
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-const StudentForm = () => {
+const StudentForm = (props) => {
 
   let objectDate=new Date();
   let day=objectDate.getDate();
@@ -333,7 +333,7 @@ const StudentForm = () => {
       <Sidebar />
 
       <div className='studentForm'>
-        <Navbar />
+        <Navbar  adminName={props.AdminName}/>
         <div className='studentForm-page page-container'>
           <div className="studentForm-page-container">
             <div className='student-page-container-heading'>

@@ -105,15 +105,15 @@ const rows = [
   { id: 1, student_name: 'Nitesh', class_id:7, medium: "English" },
   { id: 2, student_name: 'Nitesh', class_id:7, medium: "English" },
   { id: 3, student_name: 'Nitesh', class_id:7, medium: "English"},
-  // { id: 4, student_name: 'Nitesh', class_id:7, medium: "English"},
-  // { id: 5, student_name: 'Nitesh', class_id:7, medium: "English" },
-  // { id: 6, student_name: 'Nitesh', class_id:7,medium: "English" },
-  // { id: 7, student_name: 'Nitesh', class_id:7, medium: "English"},
-  // { id: 8, student_name: 'Nitesh', class_id:7, medium: "English"},
+  { id: 4, student_name: 'Nitesh', class_id:7, medium: "English"},
+  { id: 5, student_name: 'Nitesh', class_id:7, medium: "English" },
+  { id: 6, student_name: 'Nitesh', class_id:7,medium: "English" },
+  { id: 7, student_name: 'Nitesh', class_id:7, medium: "English"},
+  { id: 8, student_name: 'Nitesh', class_id:7, medium: "English"},
  
 ];
-const Grade = () => {
-  // const [rows, setRows] = useState([]);
+const Grade = (props) => {
+
   let decode = jwt_decode(localStorage.getItem("auth_token"));
   let school_id = decode.result.school_id;
 
@@ -138,16 +138,22 @@ const Grade = () => {
 
  
 
-  // mark upload handler
+
   const tempRow=[];
   const markUploadHandler=(e)=>
   {
     
-  
+    
       e.preventDefault();
+    const ans=window.confirm();
+    if(ans)
+    {
+     
+      alert("Mark Upload SuccesFully")
+    }
+    else console.log("no api call")
       setOpen(false);
-      console.log(testid);
-     console.log(inputField);
+   
   }
   subject_list.map((item)=>
   {
@@ -163,12 +169,11 @@ const Grade = () => {
       const [inputField,setInputField]=useState(tempRow)
       const changeHandler=(index,e)=>
       {
-       console.log(e.target.value)
+       
       
           let data=[...inputField];
-          console.log(e.target.name);
+        
           data[index][e.target.name]=e.target.value;
-       console.log(data);
           setInputField(data);
           
         
@@ -178,7 +183,7 @@ const Grade = () => {
 
 
 
-  // mark upload handler
+
   
   
   
@@ -287,7 +292,7 @@ const Grade = () => {
    <div className='grade-container ' >
     <Sidebar/>
     <div className='grade'>
-        <Navbar/>
+        <Navbar adminName={props.AdminName}/>
         <div className='grade-page page-container'>
         <div className="grade-detail-heading">
             <span>Mark  Details</span>

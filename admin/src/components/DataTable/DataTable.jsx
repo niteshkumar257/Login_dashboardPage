@@ -14,12 +14,24 @@ const DataTable = ({rows,columns,rowsPerPageOption,h}) => {
       <DataGrid
        sx={{
       
+        activeSortIcon: {
+          opacity: 1,
+          color : 'white',
+        },
+        inactiveSortIcon: {
+          opacity: 0.4,
+          color : 'white',
+        },
           "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
              outline: "none !important",
           },
           "&.MuiDataGrid-root .MuiDataGrid-olumn--cell:focus-within": {
             outline: "none !important",
          },
+         "&.MuiTouchRipple-root":{
+              color:"white"
+         },
+       
       
         height:"100vh",width:wid==1 ? "80vw":"90vw",
         '.MuiDataGrid-columnSeparator': {
@@ -59,18 +71,46 @@ const DataTable = ({rows,columns,rowsPerPageOption,h}) => {
         // },
       
         "& .MuiDataGrid-footerContainer": {
+          color:"white",
           borderTop: "none",
-          backgroundColor:"#c7c7c7",
+          backgroundColor:"#009df1",
+         
         },
       
+      
         "& .MuiDataGrid-columnHeaders": {
-          // color:"#009df1;",
+          color:"white;",
          
-          backgroundColor: "#c7c7c7",
+          backgroundColor: "#009df1",
            
           fontSize:"17px",
           // fontWeight:900
-        }
+        },
+       " .MuiPagination-root": {
+          "button": {
+            color: "red !important"
+         }
+        },
+        "& .MuiPaginationItem-root": {
+          color: "white"
+        },
+        "&.MuiTablePagination-actions":{
+             button:{
+              color:"white"
+             }
+        },
+        "&.MuiButtonBase-root-MuiIconButton-root.Mui-disabled":{
+               color:"white"
+        },
+        MuiPagination: {
+          styleOverrides: {
+              root: {
+                  button: {
+                      color: 'white'
+                  },
+              },
+          },
+      }
         
        
       }}

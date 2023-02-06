@@ -42,7 +42,7 @@ const rows = [
 
 ];
 
-const Teachers = () => {
+const Teachers = (props) => {
   // const [rows, setRows] = useState([]);
   let decode = jwt_decode(localStorage.getItem("auth_token"));
   let school_id = decode.result.school_id;
@@ -96,7 +96,7 @@ flex:1,
    <div className='teachers-container '>
     <Sidebar/>
     <div className='teachers'>
-        <Navbar/>
+        <Navbar  adminName={props.AdminName}/>
         <div className='teachers-page page-container'>
            <div className='teacher-detail-heading'>
             <span>Teachers Details</span>

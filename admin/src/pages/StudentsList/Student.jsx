@@ -28,6 +28,7 @@ const rows = [
 ];
 
 const Student = (props) => {
+  console.log(props.AdminName)
   const [studentId,setStudentId]=useState(0);
   // const [rows, setRows] = useState([]);
   
@@ -80,7 +81,7 @@ const Student = (props) => {
    <div className='student-container '>
     <Sidebar/>
     <div className='student'>
-        <Navbar/>
+        <Navbar  adminName={props.AdminName}/>
         <div className='student-page page-container'>
           <div className="student-detail-heading">
             <span>Student Details</span>

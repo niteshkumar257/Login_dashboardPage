@@ -10,7 +10,7 @@ const Notification = (props) => {
     <div className='SingleTeacherPage-container'>
     <Sidebar/>
     <div className='SingleTeacher'>
-        <Navbar/>
+        <Navbar  adminName={props.AdminName}/>
         <div className='SingleTeacher-page page-container'>
           
     </div>
