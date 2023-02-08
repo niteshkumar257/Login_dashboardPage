@@ -5,6 +5,11 @@ import { useState } from "react"
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Navbar from '../../components/Navbar/Navbar';
 import Table from "../../components/Table/TableFee"
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { useParams } from 'react-router';
 import axios from "axios"
 import Chart from '../../components/Chart/Chart';
@@ -247,40 +252,7 @@ const rows = [
 
 
 ];
-// fee details column and row 
 
-
-/////
-////////
-// const performanceColumn = [
-//   { field: 'id', headerName: 'Test_id', width: 150, flex:1,headerAlign:"left", align:"left",flex:1,sortable:false },
-//   {field: 'test_date',flex:1,headerName: 'Date',width: 150,editable:false,headerAlign:"left",align:"left",sortable:false},
-//   {field: 'Physics',headerName: 'Physics',width: 150,flex:1,editable:false,type:"number",headerAlign:"left", align:"left",sortable:false},
-//   {field: 'Maths',headerName: 'Math',type: 'date',width: 150,flex:1,editable:false,headerAlign:"left",sortable:false,align:"left"},
-//   {field: 'Chemistry',headerName: 'Chemistry',type: 'date',width: 150,flex:1,editable:false,headerAlign:"left",sortable:false,align:"left"},
-//   {field: 'percentage',headerName: 'Percentage',type: 'date',width: 150,flex:1,editable:false,headerAlign:"left",sortable:false, align:"left"},
-
-
-// ];
-
-// const  performanceRow= [
-// {id:1,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:2,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:3,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:4,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:5,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:6,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:7,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:8,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:9,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-// {id:10,Date:"12/10/23",Physics:89,Chemistry:67,Math:91,Percentage:"98%"},
-
-
-
-
-// ];
-///////
-////
 
 
 const SingleStudentpage = (props) => {
@@ -288,8 +260,7 @@ const SingleStudentpage = (props) => {
  
 
 
-  // props from the app.js
-  // it gives id of the selected studentPage for showing student information
+ 
   const params = useParams();
 
   const [name, setName] = useState("Nitesh Kumar Reeddy");
@@ -297,12 +268,6 @@ const SingleStudentpage = (props) => {
   const [course, setCourse] = useState("JEE");
   const [board, setBoard] = useState("ICSE");
   const [Class, setClass] = useState("12th");
-
-
-
-
-  // parent details
-
   const [fathername, setFathername] = useState("G NagaRaju Reddy");
   const [mothername, setMotherrname] = useState("G Laxmi Reddy");
   const [fatherProfession, setFatherProfession] = useState("Worker");
@@ -311,21 +276,39 @@ const SingleStudentpage = (props) => {
   const [altNumber, setAltNumber] = useState("8767856873");
   const [primaryNumber, setPrimaryNumber] = useState("58383432");
   const [email, SetEmail] = useState("niteshredd257@gmail.com");
-
-  // Performance 
   const [value, setValue] = useState([]);
+  const [open, setOpen] = React.useState(false);
 
 
 
-
-  // installMentupdateHandle Select funtion
-
+  
   const InstallmentUpdateHandler = (id) => console.log(id);
+ 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+const handleClose=()=>
+{
+  setOpen(false);
+}
+  const handleConfirm = (e) => {
+    e.preventDefault();
+   
+    alert("InstallMent Updated SuccesFully")
+    setOpen(false);
+    console.log("Api call");
+  };
+  const handleCancel = (e) => {
+    e.preventDefault();
+   console.log("Do not call api");
+    setOpen(false);
+  };
 
 
 
-  // new row 
+  
 
+  
   const viewColumn = [
     {
       field: "view", headerName: "Update", width: 200, editable: false, sortable: false, align: "left", headerAlign: "left", flex: 1,
@@ -333,7 +316,27 @@ const SingleStudentpage = (props) => {
         return (
           <div className="InstallmentUpdateHandler">
             {/* <Link   to= {`/Student/${studentId}`} style={{ textDecoration: "none" }}> */}
-            <button onClick={() => InstallmentUpdateHandler(params.row.id)}  >Update</button>
+            <button onClick={handleClickOpen} >Update</button>
+          
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"InstallMent Update Confirmation"}
+        </DialogTitle>
+        <DialogContent>
+       
+        </DialogContent>
+        <DialogActions>
+          <button className='confirm-button Alertbutton' onClick={handleConfirm}>Confirm</button>
+          <button className='cancel-button Alertbutton' onClick={handleCancel} autoFocus>
+          Cancel
+          </button>
+        </DialogActions>
+      </Dialog>
             {/* </Link> */}
 
           </div>
@@ -343,57 +346,14 @@ const SingleStudentpage = (props) => {
   ]
 
 
-  // ----
 
-  // fee details
 
   const [feeDetails, setFeeDetails] = useState([]);
  
 
   let student_id = params.student_id;
 
-  // useEffect(() => {
-  //   let parent_id;
-  //   axios.get(`http://localhost:8080/students/${student_id}`)
-  //     .then((data) => {
-  //       setName(data.data.studentDetails[0].student_name);
-  //       setMedium(data.data.studentDetails[0].medium);
-  //       setCourse(data.data.studentDetails[0].course_name);
-  //       setBoard(data.data.studentDetails[0].board);
-  //       setClass(data.data.studentDetails[0].class_id);
-  //       parent_id = data.data.studentDetails[0].parent_id;
-  //       axios.get(`http://localhost:8080/parents/${parent_id}`)
-  //         .then((data) => {
-  //           console.log(data.data.parentDetails);
-  //           setPrimaryNumber(data.data.parentDetails.whatsapp_no);
-  //           SetEmail(data.data.parentDetails.email);
-  //           setMotherProfessin(data.data.parentDetails.mother_profession);
-  //           setMotherrname(data.data.parentDetails.mother_name);
-  //           setFathername(data.data.parentDetails.father_name);
-  //           setFatherProfession(data.data.parentDetails.father_profession);
-  //           setAltNumber(data.data.parentDetails.alternative_mobile);
-  //           axios.get(`http://localhost:8080/students/${student_id}/fees`)
-  //             .then((data) => {
-  //               console.log(data.data);
-
-  //             }).catch((err) => {
-  //               console.log(err);
-  //           })
-  //         }).catch((err) => {
-  //           console.log(err);
-  //       })
-  //     }).catch((err) => {
-  //       console.log(err);
-  //   });
-
-
-
-  // }, [])
-
-
-
-
-  // this data will come for database like this
+  
   const FeeDetails = [
     { id: 1, total_fees: 7677, LastDate: "12/4/22", Status: "Paid", UpdateStatus: "Action" },
     { id: 2, total_fees: 0, LastDate: "12/4/22", Status: "Paid", UpdateStatus: "Action" },
@@ -401,7 +361,7 @@ const SingleStudentpage = (props) => {
 
   ];
   const installMentRows = FeeDetails.filter((item) => item.total_fees != 0);
-
+ 
   return (
     <>
       <div className="SingleStudent-container">
@@ -527,7 +487,6 @@ const SingleStudentpage = (props) => {
                 </div>
               </div>
               <div className="bottom">
-
                 <Table rows={rows} columns={columns.concat(viewColumn)} />
 
               </div>

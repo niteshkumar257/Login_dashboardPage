@@ -26,7 +26,6 @@ const Test = [
     value: '3',
     label: '3',
   },
-  
 ]
 const subject_list=[
   {
@@ -43,14 +42,14 @@ const subject_list=[
   },
   
 ]
-
+ 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 500,
-  height:400,
+  height:"auto",
   bgcolor: 'background.paper',
   border: 'none',
   display:"flex",
@@ -101,94 +100,160 @@ const columns = [
    
   },
 ];
-const rows = [
+
+
+// const subject_list=[
+//   {
+//     value:"p",
+//     lable:"p"
+//   },
+//   {
+//     value:"chem",
+//     lable:"chem"
+//   },
+//   {
+//     value:"bio",
+//     lable:"bio"
+//   },
+  
+// ]
+
+// const rows = [
+//   { id: 1, student_name: 'Nitesh', class_id:7, medium: "English" },
+//   { id: 2, student_name: 'Nitesh', class_id:7, medium: "English" },
+//   { id: 3, student_name: 'Nitesh', class_id:7, medium: "English"},
+//   { id: 4, student_name: 'Nitesh', class_id:7, medium: "English"},
+//   { id: 5, student_name: 'Nitesh', class_id:7, medium: "English" },
+//   { id: 6, student_name: 'Nitesh', class_id:7,medium: "English" },
+//   { id: 7, student_name: 'Nitesh', class_id:7, medium: "English"},
+//   { id: 8, student_name: 'Nitesh', class_id:7, medium: "English"},
+
+const Rows = [
   { id: 1, student_name: 'Nitesh', class_id:7, medium: "English" },
   { id: 2, student_name: 'Nitesh', class_id:7, medium: "English" },
   { id: 3, student_name: 'Nitesh', class_id:7, medium: "English"},
-  { id: 4, student_name: 'Nitesh', class_id:7, medium: "English"},
-  { id: 5, student_name: 'Nitesh', class_id:7, medium: "English" },
-  { id: 6, student_name: 'Nitesh', class_id:7,medium: "English" },
-  { id: 7, student_name: 'Nitesh', class_id:7, medium: "English"},
-  { id: 8, student_name: 'Nitesh', class_id:7, medium: "English"},
+  // { id: 4, student_name: 'Nitesh', class_id:7, medium: "English"},
+  // { id: 5, student_name: 'Nitesh', class_id:7, medium: "English" },
+  // { id: 6, student_name: 'Nitesh', class_id:7,medium: "English" },
+  // { id: 7, student_name: 'Nitesh', class_id:7, medium: "English"},
+  // { id: 8, student_name: 'Nitesh', class_id:7, medium: "English"},
+
  
 ];
 const Grade = (props) => {
-
+  const [rows, setRows] = useState(Rows);
   let decode = jwt_decode(localStorage.getItem("auth_token"));
   let school_id = decode.result.school_id;
 
   useEffect(() => {
-
-    // axios.get(`http://localhost:8080/schools/${school_id}/allstudent`)
-    // .then((data) => {
-    //  // console.log(data.data.allStudent);
-    //  console.log(data.data.allStudent);
-    //   setRows(data.data.allStudent);
-    // }).catch((err) => {
-    //   console.log(err);
-    // })
+    
+    axios.get(`http://localhost:8080/schools/${school_id}/allstudent`)
+    .then((data) => { 
+      setRows(data.data.allStudent);
+    }).catch((err) => {
+      console.log(err);
+    })
+ 
   },[])
 
   
   
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [test, setTest] = useState([]);
+  const [student_id, setStudentId] = useState();
+  const [showButton,setShowButton]=useState(0);
+  const handleOpen = (student_id) => {
+    setOpen(true);  
+     console.log(student_id)
+    setStudentId(student_id);
+    axios.get(`http://localhost:8080/schools/${school_id}/tests`)
+    .then((data) => {  
+      setTest(data.data.testDetails);
+      setShowButton(1);
+    }).catch((err) => {
+      console.log(err);
+    })
+  } 
+  const handleClose = () =>{
+    setShowButton(0);
+    setOpen(false);
+    setSubjectList([]);
+    setTestid(0);
+  } 
   const [testid,setTestid]=useState(0);
+
+  let [obtained,setObtained] = useState([]);
+  const [mark,setMark]=useState(0);
+  
+
 
  
 
 
-  const tempRow=[];
+  // mark upload handler
+  const [tempRow, setTempRow] = useState([]);
   const markUploadHandler=(e)=>
   {
     
-    
+  
       e.preventDefault();
-    const ans=window.confirm();
-    if(ans)
-    {
-     
-      alert("Mark Upload SuccesFully")
-    }
-    else console.log("no api call")
-      setOpen(false);
-   
+
+      pushMarks(testid);
   }
-  subject_list.map((item)=>
-  {
-       const data={
-        markObtained:" ",
-        totalMark:" ",
-        Subject:item.value,
-        subject_id:item.subject_id
-        
-       }
-       tempRow.push(data);
-  })
-      const [inputField,setInputField]=useState(tempRow)
+
+   
+  const [subject_list, setSubjectList] = useState([]);
+
+  const pushMarks = (test_id) => {   
+      axios.post(`http://localhost:8080/students/${student_id}/tests/${test_id}/uploadmarks`, {
+        inputField
+      }).then((data) => {
+      setOpen(false)
+        alert("Marks uploaded successfully");
+      }).catch((err) => {
+        console.log(err);
+      })
+  }
+  
+  const getSubjects = (test_id) =>{
+    
+    axios.get(`http://localhost:8080/student/${student_id}/getSubjects`)
+    .then((data) => { 
+      setSubjectList(data.data.allSubjects);
+      console.log(subject_list);
+      data.data.allSubjects.map((item)=>
+      { 
+           const data={
+            mark_obtained:"",
+            total_marks:"", 
+            subject_id:item.subject_id
+           }
+           tempRow.push(data);             
+      }) 
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  // console.log(subject_list)
+  const [inputField,setInputField]=useState(tempRow)
+  
       const changeHandler=(index,e)=>
       {
-       
+       // console.log(e.target.value);
+
       
           let data=[...inputField];
-        
+          console.log(e.target.name);
           data[index][e.target.name]=e.target.value;
+       console.log(data);
           setInputField(data);
           
         
       }
-      
-
-
-
-
-
-  
-  
-  
-  
- 
+       
+  console.log(inputField)
+  // mark upload handler
+   
   const UpdateColumn=[
     {
       field:"view",
@@ -202,7 +267,7 @@ const Grade = (props) => {
         return (
           <div>
             <div className="UpdateButton">
-            <button onClick={handleOpen} >Update</button>
+            <button onClick={() => {handleOpen(params.row.id)}} >Update</button>
             </div>
    
       <Modal
@@ -224,11 +289,12 @@ const Grade = (props) => {
                  sx={{flex:1}}
                   select
                  label="Test ID"
+ 
                  required
-                 onChange={(e)=>setTestid(e.target.value)}>
-                {Test.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-               {option.label}
+                 onChange={(e)=>{setTestid(e.target.value); getSubjects(testid)}}>
+                {test.map((option) => (
+                <MenuItem key={option.test_id} value={option.test_id}>
+               {option.test_id}
                </MenuItem>
                ))}
               </TextField>
@@ -238,49 +304,41 @@ const Grade = (props) => {
         subject_list.map((item,index)=>(
           <div key={index} className='modal-subject-container'  >
            <div className='container'>
-            <span>{item.label}:</span>
+            <span>{item.subject_name}:</span>
            </div>
            <div>
            <TextField
-           name="markObtained"
+           name="mark_obtained"
            value={tempRow[index].name}
            onChange={(e)=>changeHandler(index,e)}
              required label="Mark Obtained" variant="outlined" />
             </div>   
             <div>
             <TextField 
-            name="TotalMark"
-            
+            name="total_marks"
+
             value={tempRow[index].name}
             onChange={(e)=>changeHandler(index,e)}
              required  label="Total Mark" variant="outlined" />
             </div>         
-    
-                      
-    
-    
-    
-    
+
 
      </div>
         ))
        }
-       <div className='form-button-submit'>
-        <button>Submit</button>
+       {
+        showButton==1 &&  <div className='form-button-submit'>
+        <button>Submit</button> 
        </div>
+       }
+       
             </div>
           </div>
-         
-         
-         
-    
-     
-     
-      
+
         </Box>
-       
+
         </form>
-        
+
       </Modal>
     </div>
 
@@ -292,7 +350,7 @@ const Grade = (props) => {
    <div className='grade-container ' >
     <Sidebar/>
     <div className='grade'>
-        <Navbar adminName={props.AdminName}/>
+        <Navbar adminName={props.AdminName} />
         <div className='grade-page page-container'>
         <div className="grade-detail-heading">
             <span>Mark  Details</span>

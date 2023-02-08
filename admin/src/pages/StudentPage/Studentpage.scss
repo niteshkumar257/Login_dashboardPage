@@ -466,3 +466,21 @@ span{
     font-size: 1rem;
     font-weight: 500;  
  }
+ 
+ .Alertbutton{
+    height: 30px;
+    width: 75px;
+   
+    color: white;
+    font-size: .8rem;
+    font-weight: 500;
+    border-radius: 9px;
+    text-decoration: none;
+      
+ }
+ .confirm-button{
+    background-color: green;
+ }
+ .cancel-button{
+    background-color: red;
+ }

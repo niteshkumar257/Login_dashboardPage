@@ -20,7 +20,7 @@ const Navbar = (props) => {
          <div className='navbar-items'>
             <div className="navbar-items-item">
             
-                <span>Hi {props.adminName}</span>
+                <span> { props.adminName.length!=0  && "Hi " + props.adminName}</span>
             </div>
          </div>
      </div>

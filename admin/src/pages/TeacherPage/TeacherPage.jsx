@@ -204,42 +204,30 @@ const submitHandler=(e)=>
     setAmountError(true);
   }
   if(year.length!=0 && month.length!=0 && amount.length!=0 ){
-    console.log(year);
-    console.log(month);
-    console.log(amount);
+   
     setAmount("")
  setYear("");
  setMonth("");
  const answer = window.confirm("are you sure?");
       
     
-    console.log("form is submitted");
+   
     setOpen(false);
  
   }
  
-  // if(year && month && amount)
-  // {
-  //   console.log("all filed are required");
-   
-  //   // update api will be called when all fileds given
-  //   console.log(year);
-  // console.log(month);
-  // console.log(amount);
-  // }
-  // else alert("All filed are not filled");
-
+  
  
   
 
 }
 
-  // new column for update status
+  
 
   useEffect(() => {
     axios.get(`http://localhost:8080/teacher/${teacher_id}`)
     .then((data) => {
-      console.log(data.data.teacherDetails);
+
       setName(data.data.teacherDetails[0].teacher_name);
       SetEmail(data.data.teacherDetails[0].email);
       setAge(data.data.teacherDetails[0].age);

@@ -23,7 +23,7 @@ const Dashboard = (props) => {
 
     
   
-    props.AdminNameHandler("Nitesh Kumar");
+    // props.AdminNameHandler("Nitesh Kumar");
      const [data,setData]=useState(info);
     const [studentCount,setStudentCount] = useState(1250);
     const [teacherCount,setTeacherCount] = useState(34);
@@ -52,7 +52,7 @@ const Dashboard = (props) => {
            
                 <li>
                  
-                   <span> {data.school_name}</span>
+                   <span> {"GAANV Wala High School Academy, Jaipur"}</span>
                 </li>
         
         </div>
@@ -61,13 +61,13 @@ const Dashboard = (props) => {
         <div className="info-container">
            <li>
             <label>Owner Name : </label>
-            <span> {data.admin_name}</span>
+            <span> {"GW Head"}</span>
            </li>
           </div>
           <div className="info-container">
             <li>
               <label>City : </label>
-              <span>{ data.city_name}</span>
+              <span>{ "Jaipur"}</span>
             </li>
           </div>
         </div>
@@ -75,13 +75,13 @@ const Dashboard = (props) => {
          <div className="info-container">
          <li>
           <label>Owner Email :</label>
-          <span>{data.email}</span>
+          <span>{"admin123@gaanvwala.com"}</span>
             </li>
           </div>
           <div className="info-container">
           <li>
             <label>Phone : </label>
-            <span>{data.mobile}</span>
+            <span>{"82XXXXXXX96"}</span>
             </li>
           </div>
          </div>
