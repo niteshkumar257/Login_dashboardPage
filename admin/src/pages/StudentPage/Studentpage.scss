@@ -1,3 +1,6 @@
+$main-color:#1377C0;
+$sub-heading:rgb(83, 83, 83);
+$container-bottom-border:.2px solid rgb(227, 227, 227);;
 .SingleStudent-container
 {
     display: flex;
@@ -15,7 +18,7 @@
            row-gap: 20px;
             height: auto;
            .student-info-main-container{
-            box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+            // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
               display: flex;
               width: 100%;
               flex-direction: column;
@@ -47,11 +50,13 @@
                
                  height: auto;
                 flex: 1;
+                border-radius: 0px;
+            border-bottom: $container-bottom-border;
                 
                 }
                 .basic-info{
                     padding: 0.5rem;
-                    border-radius: 9px;
+                    border-radius: 0px;
                     width: 100%;
                     display: flex;
                     flex: 1;
@@ -69,7 +74,7 @@
                             display: flex;
                             justify-content: center;
                             align-items: center;
-                            background-color: rgba(199, 244, 255, 0.297);
+                            
                             height: 150px;
                             width: 150px;
                             border-radius: 9px;
@@ -100,7 +105,7 @@
                               
                                 font-size: 1.3rem;
                                 font-weight: 600;
-                              color: rgb(83, 83, 83);
+                              color:$sub-heading;
                           
         
                             }
@@ -127,11 +132,11 @@
                                .lable{
                                 font-size: 1rem;
                                 font-weight: 500;
-                                color: #1378c09a;
+                                color: $main-color;
                             }
                             span{
                                 font-size: 1rem;
-                                color: rgb(83, 83, 83);
+                                color: $sub-heading;
                             }
                               
                              
@@ -185,8 +190,9 @@
                 width: 98%;
                
                 padding: 0.5rem;
-                border-radius: 9px;
-                box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                // border-radius: 9px;
+        border-bottom: .2px solid rgb(185, 185, 185);
+                // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
             //    background-color: aquamarine;
                align-items: center;
                 display: flex;
@@ -200,6 +206,7 @@
                     h1{
                         font-size: 1.3rem;
                         font-weight: 700;
+                        color:$sub-heading
         
                     }
                 }
@@ -226,11 +233,11 @@
                             .lable{
                                 font-size: .9rem;
                                 font-weight: 500;
-                                color: #1378c09a;
+                                color:$main-color;
                             }
                             span{
                                 font-size: 1rem;
-                                color: rgb(83, 83, 83);
+                                color: $sub-heading;
                                
                             }
                             
@@ -241,7 +248,7 @@
             .fee-info{
               
                width: 98%;
-                box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
                 border-radius: 9px;
         padding: 0.5rem;
         height: auto;
@@ -297,14 +304,14 @@
                         span{
                             font-size: 1rem;
                            
-                            color:#009df1;
+                            color:$main-color;
         
                         }
                         h1{
                             font-size: 1.4rem;
                             font-weight: 600;
                             
-                            color:#009df1;
+                            color:$main-color;
         
                         }
                     }
@@ -332,7 +339,9 @@
                     
                     flex: 2.5;
                     display: flex;
-                  
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     width: 100%;
                 min-height: 20vh;
                 max-height: 70vh;
@@ -353,37 +362,37 @@
                 display: flex;
                 flex-direction: column;
                 border-radius: 9px;
-                box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                // box-shadow: 0 2px 2px rgb(0 0 0 / 10%), 0 4px 2px rgb(0 0 0 / 10%);
                 width: 98%;
                 row-gap: 20px;
-                .performanceAnalytic-info-icon{
-                    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-                    height: 20vh;
-                width: 50vh;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border-radius: 9px;
-                padding: 0 10px;
-                span{
-                    font-size: 1.4rem;
-                    color:#009df1;
-                }
-                img{
-                    height: 70px;
-                    width: 70x;
-                }
-                }
-                .perfomanceAnalytic-heading{
+              
+                .performanceAnalytic-heading{
                     width: 90%;
                     height: auto;
                   
                       h1{
                           font-size: 1.3rem;
                           font-weight: 700;
-                      color: rgb(83, 83, 83);
+                      color:$sub-heading;
               
                       }
+                }
+                .performanceAnalytic-toggle-button{
+                    button{
+                     height: 54px;
+                     width: 100px;
+                     background-color:$main-color;
+                            color: white;
+                        font-weight: 600;
+                        font-size: 1rem;
+                            border-radius: 9px;
+                            border: none;
+                            text-decoration: none;
+                           animation: roll-in-right 0.6s ease-out both;
+                           .roll-in-right {
+	animation: roll-in-right 0.6s ease-out both;
+}
+                    }
                 }
                 .performanceAnalytic-body-content{
                     width: 100%;
@@ -411,7 +420,7 @@
                           
                             border-radius: 9px;
                             height: 50vh;
-                            box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                         
                             .heading{
                                 display: flex;
                                 width: 98%;

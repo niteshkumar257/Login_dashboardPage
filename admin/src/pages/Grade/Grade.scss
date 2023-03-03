@@ -1,3 +1,4 @@
+$main-color:#1377C0;
 .grade-container
 {
     display: flex;
@@ -35,12 +36,13 @@
                         button{
                             height: 54px;
                             width: 150px;
-                            background-color:#009df1;
+                            background-color:$main-color;
                             color: white;
                         font-weight: 600;
                         font-size: 1rem;
                             border-radius: 9px;
                             border: none;
+                            text-decoration: none;
                         }
                     }
                 }
@@ -116,9 +118,29 @@
         span{
             font-size: 1.5rem;
             font-weight: 600;
-            color: rgb(83, 83, 83);
+            color: rgb(38, 38, 38);
         }
     }
+    .student-info{
+        display: flex;
+        column-gap: 30px;
+
+.student-info-modal{
+    display: flex;
+     column-gap: 10px;
+        label{
+ font-size: 1rem;
+            font-weight: 600;
+            color: rgb(83, 83, 83); 
+        }
+        span{
+              font-size: 1rem;
+            font-weight: 600;
+            color: rgb(40, 40, 40); 
+        }
+        
+    }
+}
     .test_id_select{
        display: grid;
        grid-template-columns: 0.5fr;
@@ -142,12 +164,13 @@
         button{
             height: 54px;
             width: 150px;
-            background-color:#009df1;
+            background-color:$main-color;
             color: white;
         font-weight: 600;
         font-size: 1rem;
             border-radius: 9px;
             border: none;
+            text-decoration: none;
         }
     }
 }

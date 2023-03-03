@@ -1,122 +1,55 @@
- 
-import {useState, useEffect} from 'react'
-import "./TeacherPage.scss" 
+import { useState, useEffect } from 'react'
+import "./TeacherPage.scss"
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Navbar from '../../components/Navbar/Navbar'
-import StudentImage from "../../assest/s1.png";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Table from "../../components/Table/TableFee"
-import { ConstructionOutlined, SocialDistance } from '@mui/icons-material';
-import { FaBlackTie } from 'react-icons/fa';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 import Modal from '@mui/material/Modal';
 import { TextField, Stack, MenuItem } from '@mui/material';
-import { gridColumnsTotalWidthSelector } from '@mui/x-data-grid';
-import Alert from '@mui/material/Alert';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CircularProgress from '@mui/material/CircularProgress';
 
+
+//  Mnoths data 
 const Month = [
   {
-    value: 'Jan',
-    label: 'Jan',
-  },
-  {
-    value: 'Feb',
-    label: 'Feb',
-  },
-  {
-    value: 'March',
-    label: 'March',
-  },
-  {
-    value: 'April',
-    label: 'April',
-  },
-  {
-    value: 'May',
-    label: 'May',
-  },
-  {
-    value: 'June',
-    label: 'July',
-  },
-  {
-    value: 'Aug',
-    label: 'Aug',
-  },
-  {
-    value: 'Sep',
-    label: 'Sep',
-  },
-  {
-    value: 'Oct',
-    label: 'Oct',
-  },
-  {
-    value: 'Nov',
-    label: 'Nov',
-  },
-  {
-    value: 'Dec',
-    label: 'Dec',
+    year: "2023",
+    months: [
+      { value: 'Jan', lable: "Jan" }, { value: 'Feb', lable: "Feb" }, { value: 'March', lable: "March" }, { value: 'April', lable: "April" }, { value: 'May', lable: "May" }, { value: 'June', lable: "June" }, { value: "July", lable: "July" },
+      { value: 'Aug', lable: "Aug" }, { value: 'Sep', lable: "Sep" }, { value: 'Oct', lable: "Oct" }, { value: 'Nov', lable: "Nov" }, { value: 'Dec', lable: "Dec" },
+    ]
   },
 
-
-
+  {
+    year: "2024",
+    months: [
+      { value: 'Jan', lable: "Jan" }, { value: 'Feb', lable: "Feb" }, { value: 'March', lable: "March" }, { value: 'April', lable: "April" }, { value: 'May', lable: "May" }, { value: 'June', lable: "June" }, { value: "July", lable: "July" },
+      { value: 'Aug', lable: "Aug" }, { value: 'Sep', lable: "Sep" }, { value: 'Oct', lable: "Oct" }, { value: 'Nov', lable: "Nov" }, { value: 'Dec', lable: "Dec" },
+    ]
+  }
 ];
 const Year = [
-  {
-    value: "2020",
-    label: "2020"
-  },
-  {
-    value: "2021",
-    label: "2021"
-  },
-  {
-    value: "2022",
-    label: "2022"
-  },
-  {
-    value: "2023",
-    label: "2023"
-  },
-  {
-    value: "2024",
-    label: "2024"
-  }
+  { value: "2023", label: "2023" },
+  { value: "2024", label: "2024" }
 ]
 
 
 const columns = [
   { field: 'id', headerName: 'SI.No', width: 150, headerAlign: "left", align: "left", flex: 1, sortable: false },
-  {
-    field: 'month', headerName: 'Month', width: 150, editable: false, headerAlign: "left", align: "left",
-    sortable: false, flex: 1
-  },
-  {
-    field: 'year', headerName: 'Year', type: 'number', width: 150, editable: false, headerAlign: "left",
-    sortable: false, flex: 1,
-    align: "left"
-  },
-  {
-    field: 'amount', headerName: 'Amount', type: 'number', width: 150, editable: false, headerAlign: "left",
-    sortable: false, flex: 1,
-    align: "left"
-  },
-
-
+  { field: 'month', headerName: 'Month', width: 150, editable: false, headerAlign: "left", align: "left", sortable: false, flex: 1 },
+  { field: 'year', headerName: 'Year', type: 'number', width: 150, editable: false, headerAlign: "left", sortable: false, flex: 1, align: "left" },
+  { field: 'amount', headerName: 'Amount', type: 'number', width: 150, editable: false, headerAlign: "left", sortable: false, flex: 1, align: "left" },
 ];
 
-const rows = [
-  { id: 1, Month: 'Jan', Year: "2002", Amount: 1000 },
-  { id: 2, Month: 'March', Year: "2004", Amount: 2000 },
-  { id: 3, Month: 'Feb', Year: "2006", Amount: 3000 },
 
-
-];
-
-const SingleTeacherPage = () => {
+const SingleTeacherPage = (props) => {
   const style = {
     position: 'absolute',
     top: '50%',
@@ -126,18 +59,14 @@ const SingleTeacherPage = () => {
     height: 400,
     bgcolor: 'background.paper',
     border: 'none',
-
     borderRadius: 3,
     boxShadow: 24,
     p: 4,
 
   };
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    console.log("button is cliekc");
-    setOpen(true);
-  }
-  const handleClose = () => setOpen(false);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
 
   let params = useParams();
   const [name, setName] = useState("Nitesh Kumar Reddy");
@@ -151,58 +80,23 @@ const SingleTeacherPage = () => {
   const [date, setDate] = useState("");
   const [gender, setGender] = useState("Male");
 
-
-
   // salary update useState variable
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [amount, setAmount] = useState("");
-
   const [yearError, setYearError] = useState(false);
   const [monthError, setMonthError] = useState(false);
   const [amountError, setAmountError] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [rows, setRows] = useState([]);
 
-
-  // salary update useState variable
   let teacher_id = params.TeacherId;
 
-  /// new column for update status
-
-
-  const salaryUpdate = (id) => {
-    console.log(id);
-  }
-  const updateColumn = [
-    {
-      field: "view",
-      headerName: "Update",
-      width: 200,
-      editable: false,
-      sortable: false,
-      align: "left",
-      headerAlign: "left",
-      flex: 1,
-      renderCell: (params) => {
-        return (
-          <div className="viewButton">
-            {/* <Link   to= {`/Student/${studentId}`} style={{ textDecoration: "none" }}> */}
-            <button onClick={() => salaryUpdate(params.row.id)}  >Update</button>
-            {/* </Link> */}
-
-          </div>
-        );
-      },
-    }
-  ]
-
-  const [rows, setRows] = useState([]);
   const renderSalary = () => {
     axios.get(`http://localhost:8080/teacher/${teacher_id}/paymentdetails`)
       .then((data) => {
-        console.log(data.data);
         let allSalary = data.data.teacherDetails;
         let salary = [];
-
         for (let i = 0; i < allSalary.length; i++) {
           salary.push({ id: i + 1, amount: allSalary[i].amount, year: allSalary[i].year, month: allSalary[i].month });
         }
@@ -211,190 +105,218 @@ const SingleTeacherPage = () => {
         console.log(err);
       })
   }
-  const submitHandler = (e) => {
-    e.preventDefault();
-    setOpen(false);
-    console.log("form submited");
-    axios.post(`http://localhost:8080/teacher/${teacher_id}/updatepayment`, {
-      amount, month, year
+  let MonthSort = [];
+  let SalaryRow = Object.entries(rows);
+  const todayDate = new Date();
+  let curentYear = todayDate.getFullYear();
+
+  SalaryRow.map((value) => { if (value[1].year == curentYear) { MonthSort.push(value[1].month) } })
+
+  const filteredMonths = Month.map(yearData => {
+    console.log(yearData.year)
+    if (yearData.year == curentYear) {
+      console.log(yearData.year, curentYear);
+      return {
+        year: yearData.year, months: yearData.months.filter(month => !MonthSort.includes(month.value))
+      }
+    }
+    else return {
+      year: yearData.year, months: yearData.months
+    }
+  });
+  const [newMonths, setNewMonths] = useState([]);
+  const yearSelectHandler = (e) => {
+    setYear(e.target.value);
+    filteredMonths.map((item) => {
+      if (e.target.value === item.year) {
+        console.log(year, item, year);
+        setNewMonths(item.months)
+      }
     })
+  }
+  const salaryAmountHandler = (e) => {
+    if (e.target.value < 0) {
+      setAmount(-e.target.value);
+    }
+    else setAmount(e.target.value);
+  }
+  const handleAgree = () => {
+    setOpenModal(false);
+    if (year == '') setYearError(true);
+    if (month == '') setMonthError(true);
+    if (amount == '') setAmountError(true);
+    if (amount > 0) {
 
-      .then((data) => {
-        console.log(data);
-        renderSalary();
-      }).catch((err) => {
-        console.log(err);
-      })
+      if (year.length != 0 && month.length != 0 && amount.length != 0) {
+        axios.post(`http://localhost:8080/teacher/${teacher_id}/updatepayment`, {
+          amount, month, year
+        })
 
+          .then((data) => {
+            console.log(data.data.message);
+            toast.success(data.data.message, {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            renderSalary();
+          }).catch((err) => {
+            console.log(err);
+            toast.error(err.error, {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          })
+        setOpenDialog(false);
+        setOpenModal(false);
 
-
-  
-    
+      }
       setYearError(false);
       setMonthError(false);
       setAmountError(false)
-
-      // 
-
-      if (year == '') {
-        setYearError(true);
-      }
-      if (month == '') {
-        setMonthError(true);
-      }
-      if (amount == '') {
-        setAmountError(true);
-      }
-      if (year.length != 0 && month.length != 0 && amount.length != 0) {
-        console.log(year);
-        console.log(month);
-        console.log(amount);
-        setAmount("")
-        setYear("");
-        setMonth("");
-        const answer = window.confirm("are you sure?");
-
-
-        console.log("form is submitted");
-        setOpen(false);
-
-      }
-
-      // if(year && month && amount)
-      // {
-      //   console.log("all filed are required");
-
-      //   // update api will be called when all fileds given
-      //   console.log(year);
-      // console.log(month);
-      // console.log(amount);
-      // }
-      // else alert("All filed are not filled");
-
-
-
+    }
+    else {
+      toast.warn("Enter a Valid Salary", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
 
-    // new column for update status
+  }
+  const AddSalaryHandler = (e) => {
+    e.preventDefault();
+    setOpenDialog(true);
+  }
 
-    useEffect(() => {
-      console.log(teacher_id)
-      axios.get(`http://localhost:8080/teacher/${teacher_id}`)
-        .then((data) => {
-          console.log(data.data)
-          setName(data.data.teacherDetails[0].teacher_name);
-          SetEmail(data.data.teacherDetails[0].email);
-          setAge(data.data.teacherDetails[0].age);
-          setSalary(data.data.teacherDetails[0].salary);
-          setCity(data.data.teacherDetails[0].city);
-          setAadharCard(data.data.teacherDetails[0].aadhar_no);
-          setDate(data.data.teacherDetails[0].date_of_joining.slice(0, 10))
-          setWorkExp(data.data.teacherDetails[0].experience);
-          setGender(data.data.teacherDetails[0].gender);
-          setMedium(data.data.teacherDetails[0].medium)
-        }).catch((err) => {
-          console.log(err);
-        })
-      renderSalary();
-    }, [])
-    return (
-      <div className='SingleTeacherPage-container '>
-        <Sidebar />
-        <div className='SingleTeacher'>
-          <Navbar />
-          <div className='SingleTeacher-page page-container'>
-            <div className='student-info-main-container'>
-              <div className='student-info-heading'>
-                <h1> Teachers Details</h1>
-              </div>
-              <div className="section basic-info">
-
-
-                <div className="basic-info-right">
-                  <div className='student-Name'>
-                    <span >{name}</span>
-                  </div>
-                  <div className='other-info-container'>
-                    <div className='other-detail-info-container page-container'>
-                      <div className='student'>
-
-                        <span className='label'
-                          style={{ color: "#1378c09a", fontSize: ".9rem" }}
-                        > Medium :</span>
-                        <span>{medium}</span>
-                      </div>
-                      <div className='student'>
-                        <span className='lable'> Email :</span>
-                        <span>{email}</span>
-                      </div>
-                      <div className='student'>
-                        <span className='lable'> Work-Experinece :</span>
-                        <span>{workExp}</span>
-                      </div>
-
+  // new column for update status
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    setOpenModal(false);
+  }
+  useEffect(() => {
+    console.log(teacher_id)
+    axios.get(`http://localhost:8080/teacher/${teacher_id}`)
+      .then((data) => {
+        console.log(data.data)
+        setName(data.data.teacherDetails[0].teacher_name);
+        SetEmail(data.data.teacherDetails[0].email);
+        setAge(data.data.teacherDetails[0].age);
+        setSalary(data.data.teacherDetails[0].salary);
+        setCity(data.data.teacherDetails[0].city);
+        setAadharCard(data.data.teacherDetails[0].aadhar_no);
+        setDate(data.data.teacherDetails[0].date_of_joining.slice(0, 10))
+        setWorkExp(data.data.teacherDetails[0].experience);
+        setGender(data.data.teacherDetails[0].gender);
+        setMedium(data.data.teacherDetails[0].medium)
+      }).catch((err) => {
+        console.log(err);
+      })
+    renderSalary();
+  }, [])
+  const [isExpanded, setExpanded] = useState(false);
+  const isExpandedHandler = (value) => {
+    setExpanded(value);
+  }
+  return (
+    <div className='SingleTeacherPage-container '>
+      <Sidebar isExpandedHandler={isExpandedHandler} />
+      <div className='SingleTeacher'>
+        <Navbar adminName={props.AdminName} />
+        <div className='SingleTeacher-page page-container'>
+          <div className='student-info-main-container'>
+            <div className='student-info-heading'>
+              <h1> Teachers Details</h1>
+            </div>
+            <div className="section basic-info">
+              <div className="basic-info-right">
+                <div className='student-Name'>
+                  <span >{name}</span>
+                </div>
+                <div className='other-info-container'>
+                  <div className='other-detail-info-container page-container'>
+                    <div className='student'>
+                      <span className='label'
+                        style={{ color: "#1377C0", fontSize: ".9rem" }}
+                      > Medium :</span>
+                      <span>{medium}</span>
                     </div>
-                    <div className='other-detail-info-container'>
-                      <div className='student'>
-                        <span className='lable'>
-                          Age :
-                        </span>
-                        <span>{age}</span>
-                      </div>
-                      <div className='student'>
-                        <span className='lable'>Gender :</span>
-                        <span>{gender}</span>
-                      </div>
-                      <div className='student'>
-                        <span className='lable'>Salary :</span>
-                        <span>{salary}</span>
-                      </div>
-
+                    <div className='student'>
+                      <span className='lable'> Email :</span>
+                      <span>{email}</span>
                     </div>
-                    <div className='other-detail-info-container'>
-                      <div className='student'>
-                        <span className='lable'>
-                          Start Date :
-                        </span>
-                        <span>{date}</span>
-                      </div>
-                      <div className='student'>
-                        <span className='lable'>City :</span>
-                        <span>{City}</span>
-                      </div>
-                      <div className='student'>
-                        {/* <span className='lable'>Aadhar Number :</span>
-                        <span>{AadharCard}</span> */}
-                      </div>
-
+                    <div className='student'>
+                      <span className='lable'> Work-Experinece :</span>
+                      <span>{workExp}</span>
                     </div>
                   </div>
+                  <div className='other-detail-info-container'>
+                    <div className='student'>
+                      <span className='lable'>
+                        Age :
+                      </span>
+                      <span>{age}</span>
+                    </div>
+                    <div className='student'>
+                      <span className='lable'>Gender :</span>
+                      <span>{gender}</span>
+                    </div>
+                    <div className='student'>
+                      <span className='lable'>Salary :</span>
+                      <span>{salary}</span>
+                    </div>
+                  </div>
+                  <div className='other-detail-info-container'>
+                    <div className='student'>
+                      <span className='lable'>
+                        Start Date :
+                      </span>
+                      <span>{date}</span>
+                    </div>
+                    <div className='student'>
+                      <span className='lable'>City :</span>
+                      <span>{City}</span>
+                    </div>
+                    <div className='student'>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div
-                className='student-salary-container'
-                style={{
-                  width: "98%",
-                }}
-              >
-                <div className='student-salary-container-heading'>
-                  <h1>Salary Details</h1>
-
-
-                </div>
-                <div className='student-info-container-body'>
-                  <Table rows={rows} columns={columns} />
-
-                </div>
+            </div>
+            <div className='student-salary-container' style={{ width: "98%", }}>
+              <div className='student-salary-container-heading'>
+                <h1>Salary Details</h1>
+              </div>
+              <div className='student-info-container-body'>
+                {rows.length == 0 ? <p>No data found</p> : <Table rows={rows} columns={columns} />}
+              </div>
+              {
+                rows.length != 0 &&
                 <div className='btn'>
                   <button onClick={handleOpen}>Update Salary</button>
-                  <Modal
-                    open={open}
+                  {openModal && <Modal
+                    open={openModal}
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                   >
-                    <form onSubmit={submitHandler}>
-
+                    <form onSubmit={AddSalaryHandler}>
                       <Box sx={style} >
                         <div style={{
                           display: "flex",
@@ -406,67 +328,96 @@ const SingleTeacherPage = () => {
                               <div>
                                 <span>Salary update</span>
                               </div>
-                              <TextField sx={{ flex: 1 }} error={monthError} required select label="Month" onChange={(e) => setMonth(e.target.value)} helperText="Select Month">
-                                {Month.map((option) => (
-                                  <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </MenuItem>
-                                ))}
-                              </TextField>
-                              <TextField sx={{ flex: 1 }} error={yearError} required select label="year" onChange={(e) => setYear(e.target.value)} helperText="Select year">
+                              <TextField sx={{ flex: 1 }} defaultValue="" error={yearError} required select label="year" onChange={yearSelectHandler} helperText="Select year">
                                 {Year.map((option) => (
                                   <MenuItem key={option.value} value={option.value}>
                                     {option.label}
                                   </MenuItem>
                                 ))}
                               </TextField>
-                              <TextField sx={{ flex: 1 }} error={amountError} required label="Amount" onChange={(e) => setAmount(e.target.value)} helperText="Enter Amount" />
-
-
-
-
+                              <TextField defaultValue="" sx={{ flex: 1 }} error={monthError} required select label="Month" onChange={(e) => setMonth(e.target.value)} helperText="Select Month">
+                                {newMonths.map((option) => (
+                                  <MenuItem key={option.value} value={option.value}>
+                                    {option.lable}
+                                  </MenuItem>
+                                ))}
+                              </TextField>
+                              <TextField sx={{ flex: 1 }} error={amountError} required label="Amount" onChange={salaryAmountHandler} helperText="Enter Amount" />
                             </Stack>
                           </div>
-
                           <div style={{
                             display: "flex",
                             justifyContent: "flex-end"
                           }}>
                             <button
-
-                              // onClick={scoreHandler}
                               style={{
-
-                                width: 100,
-                                height: 30,
+                                width: 150,
+                                height: 54,
                                 backgroundColor: "#08B3F3",
                                 border: "none",
                                 borderRadius: 9,
+                                fontSize: "1.1rem",
+                                backgroundColor: "#1377C0",
                                 color: "white",
-                                fontSize: "1rem",
+                                textDecoration: "none",
                                 cursor: "pointer"
                               }}>Submit</button>
                           </div>
                         </div>
-
                       </Box>
                     </form>
-
-
-
-                  </Modal>
+                  </Modal>}
                 </div>
-
-
-
-              </div>
+              }
             </div>
           </div>
-
-
         </div>
       </div>
-    )
-  }
+      {openDialog && <Dialog
+        sx={{
+          "& .MuiDialog-container": {
+            justifyContent: "center",
+            alignItems: "flex-start"
+
+          }
+        }}
+        PaperProps={{
+          sx: {
+            width: "25%", height: "20%",
+            justifyContent: "center",
+            alignItems: "center"
+
+          }
+        }}
+        open={openDialog}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Salary Update?"}
+        </DialogTitle>
+
+        <DialogActions>
+          <Button
+            style={{
+              backgroundColor: "#1377C0",
+              color: "white",
+              fontSize: "0.7rem"
+            }}
+            onClick={handleAgree}>confirm</Button>
+          <Button
+            style={{
+              backgroundColor: "red",
+              color: "white",
+              fontSize: "0.7rem"
+            }}
+            onClick={handleDialogClose} autoFocus>Cancel</Button>
+        </DialogActions>
+      </Dialog>}
+      <ToastContainer />
+    </div>
+  )
+}
 
 export default SingleTeacherPage;

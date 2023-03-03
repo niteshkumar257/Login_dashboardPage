@@ -1,3 +1,5 @@
+$main-color:#1377C0;
+$container-bottom-border:.2px solid rgb(227, 227, 227);;
 .SingleTeacherPage-container
 {
     display: flex;
@@ -11,13 +13,14 @@
             align-items: center;
             gap: 20px;
            
+           
             .student-info-main-container{
              
                   display: flex;
                   flex-direction: column;
                   justify-content: center;
                   align-items: center;
-                  width: 100%;
+                  width: 98%;
                 row-gap: 20px; 
                  
                 
@@ -44,17 +47,18 @@
               
                 .section{
                    
-                    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                    // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
                     width: 98%;
                      height: 30vh;
                     flex: 1;
+                    border-bottom: $container-bottom-border;
               
                     
                     }
                     .basic-info{
                         width: 96.5%;
                         padding: 0.5rem;
-                        border-radius: 9px;
+                        border-radius: 0px;
                     //    border: 2px solid black;
                         display: flex;
                         flex: 1;
@@ -110,7 +114,7 @@
                                    .lable{
                                     font-size: 1rem;
                                     font-weight: 500;
-                                    color: #1378c09a;
+                                    color: $main-color;
                                 }
                                 span{
                                     font-size: 1rem;
@@ -163,10 +167,14 @@
                 }
                 .student-salary-container{
                     // border: 2px solid black;
-                    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                    // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
                       width: 98%;
-                      height: 70vh;
+                      height:auto;
                       border-radius: 9px;
+                    padding-bottom: 20px;
+                    padding-top: 10px;
+                    padding-left: 5px;
+                    padding-right: 5px;
                    
                      
                    
@@ -210,11 +218,12 @@
                         button{
                             height: 54px;
                             width: 150px;
-                            background-color:#009df1;
+                            background-color:$main-color;
                             color: white;
                         font-weight: 600;
                         font-size: 1rem;
                             border-radius: 9px;
+                            text-decoration: none;
                             border: none;
                         }
                      }

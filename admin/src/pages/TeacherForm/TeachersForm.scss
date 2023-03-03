@@ -1,3 +1,4 @@
+$main-color:#1377C0;
 .teachers-container
 {
       display: flex;
@@ -139,6 +140,7 @@
       height: 50px;
       border-radius: 9px;
       color: white;
-      background-color: #009df1;
+      background-color:$main-color;
+      text-decoration: none;
 
 }

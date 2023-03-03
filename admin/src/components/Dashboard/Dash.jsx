@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
 import "./Dash.scss"
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import { Email } from '@mui/icons-material';
 import student1 from "../../assest/s5.png";
 import teacher from "../../assest/t2.png";
 import department from "../../assest/d2.png";
-import widgest from '../Widgest/widgest';
 import s4 from "../../assest/school4.png";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
@@ -18,26 +14,47 @@ const info = {
     admin_name: "GW Head"
 }
 
-const Dashboard = (props) => { 
+const Dashboard = (props) => {
     const [data, setData] = useState(info);
-    const [studentCount, setStudentCount] = useState(1250);
-    const [teacherCount, setTeacherCount] = useState(34);
-
+    const [studentCount, setStudentCount] = useState(0);
+    const [teacherCount, setTeacherCount] = useState(0);
     let decodeToken = jwt_decode(localStorage.getItem("auth_token"));
-    let school_id = decodeToken.result.school_id;
+    let school_id = (localStorage.getItem("superadmin_school") === null)?decodeToken.result.school_id:localStorage.getItem("superadmin_school");
+  
+  
     useEffect(() => {
-        axios.get(`http://localhost:8080/schools/${school_id}`, { headers: { 'Content-Type': 'application/json' } }).then((res) => {
-            //  console.log(res)
-            setData(res.data.schoolDetail);
-            setStudentCount(res.data.totalStudent);
-            setTeacherCount(res.data.totalTeacher); 
-            props.AdminNameHandler(res.data.schoolDetail.admin_name);
+        
+        const cachedData = localStorage.getItem(`school_${school_id}_detail`);
+
+    if (cachedData) {
+      const { schoolDetail, totalStudent, totalTeacher } = JSON.parse(cachedData);
+      setData(schoolDetail);
+      setStudentCount(totalStudent);
+      setTeacherCount(totalTeacher);
+      if(decodeToken.result.role==="superAdmin") props.AdminNameHandler("SuperAdmin");
+          else   props.AdminNameHandler(schoolDetail.admin_name);
+    } else {
+      axios.get(`http://localhost:8080/schools/${school_id}`, { headers: { 'Content-Type': 'application/json' } })
+        .then((res) => {
+          setData(res.data.schoolDetail);
+          setStudentCount(res.data.totalStudent);
+          setTeacherCount(res.data.totalTeacher);
+           if(decodeToken.result.role==="superAdmin") props.AdminNameHandler("SuperAdmin");
+          else   props.AdminNameHandler(res.data.schoolDetail.admin_name);
+         
+          localStorage.setItem(`school_${school_id}_detail`, JSON.stringify({
+            schoolDetail: res.data.schoolDetail,
+            totalStudent: res.data.totalStudent,
+            totalTeacher: res.data.totalTeacher
+          }));
         })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     }, []);
 
-
     return (
-
         <div>
             <div className='dash'>
                 <div className="top">
@@ -46,9 +63,7 @@ const Dashboard = (props) => {
                     </div>
                     <div className="basic-info">
                         <div className='Name-of-school'>
-
                             <li>
-
                                 <span> {data.school_name}</span>
                             </li>
 
@@ -58,13 +73,13 @@ const Dashboard = (props) => {
                                 <div className="info-container">
                                     <li>
                                         <label>Owner Name : </label>
-                                        <span> {data.admin_name}</span>
+                                        <span> {data.admin_name && ((data.admin_name).replace(/_/g, " ")).replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())}</span>
                                     </li>
                                 </div>
                                 <div className="info-container">
                                     <li>
                                         <label>City : </label>
-                                        <span>{data.city_name}</span>
+                                        <span>{data.city_name && ((data.city_name).replace(/_/g, " ")).replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())}</span>
                                     </li>
                                 </div>
                             </div>

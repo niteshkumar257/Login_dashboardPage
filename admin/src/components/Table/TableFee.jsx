@@ -12,7 +12,8 @@ export default function DataTable({rows,columns}) {
         "& .MuiDataGrid-columnHeaders": {
           // color:"#009df1;",
          
-          backgroundColor: "#c7c7c7",
+          backgroundColor:"#1377C0",
+          color:"white",
           // color:"009df1",
            
           fontSize:"17px",
@@ -23,7 +24,7 @@ export default function DataTable({rows,columns}) {
         },
         "& .MuiDataGrid-footerContainer": {
           borderTop: "none",
-          backgroundColor:"#c7c7c7",
+          backgroundColor:"#1377C0",
         },
         "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
           outline: "none !important",
