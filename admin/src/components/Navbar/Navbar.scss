@@ -1,3 +1,4 @@
+$main-color:#1377C0;
 .navbar
 {
     flex: 4;
@@ -43,7 +44,7 @@
         }
         .search-icon
         {
-            background-color:#009df1;
+            background-color:$main-color;
             height: 6.3vh;
             display: flex;
             width: 6vh;
@@ -77,8 +78,8 @@
            span 
            {
             margin-left: 0.5rem;
-            font-weight: 700;
-            color: #009df1;
+            font-weight: 600;
+            color: #000000;
            }
 
         }

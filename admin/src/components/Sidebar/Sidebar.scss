@@ -1,3 +1,4 @@
+$main-color:#1377C0;
 .sidebar
 {
     display: flex;
@@ -36,7 +37,7 @@
           
       
           
-           gap: 10px;
+           gap: 8px;
            .logo-container-heading{
            
             display: flex;
@@ -66,9 +67,8 @@
       
         .menu-icon
         {
-            background-color: white
-            ;
-            height: 6vh;
+            margin-right: 5px;
+            height: 7vh;
             cursor: pointer;
             color: #0890cb;
             font-size:24px ;
@@ -86,86 +86,127 @@
         align-items: center;
             padding-top: 1rem;
             
+            .homeNavigate{
+                width: 90%;
+               cursor: pointer;
+                display: flex;
+            column-gap: 30px;
+                height: 6vh;
+                text-decoration: none;
+                .item{
+                //    padding: 0.5rem 0.5rem 0.5rem 1rem;
+                    display: flex;
+                    gap: 10px;
+                    justify-content: flex-start;
+                    align-items: center;
+                    cursor: pointer;
+                    padding-left:1rem;
+                    
+                .link-text
+                {
+                    cursor: pointer;
+                    text-decoration: none;
+                     color: #000000;
+                     font-weight: 400;
+                    //  &:hover{
+                    //     color: white;
+                    //  }
+                }
+                .icon{
+                    font-size: 20px;
+                    cursor: pointer;
+                    color: black;
+                     font-weight: 400;
+                    //  &:hover{
+                    //     color: white;
+                    //  }
+                }
+              
+            } 
+            }
          
             .menu-item{
             
                 width: 100%;
                 display: flex;
-             
                  justify-content: center;
-             
-                 align-items: center;
-               
-             
-              
-    
-             
-               
+               align-items: center;
                 gap: 25px;
                 flex-direction: column;
             .items{
-              
               width: 85%;
-             
-            
                 display: flex;
-             
                 // justify-content:flex-start;
                 align-items: center;
                 height: 7vh;
-                
-               
-               
-               
-               
                 .item{
                 //    padding: 0.5rem 0.5rem 0.5rem 1rem;
-                
+                    display: flex;
+                    gap: 10px;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                   
+                    padding-left:1rem;
+                .link-text
+                {
+                    cursor: pointer;
+                    text-decoration: none;
+                     color: #000000;
+                     font-weight: 400;
+                    //  &:hover{
+                    //     color: white;
+                    //  }
+                }
+                .icon{
+                    font-size: 20px;
+                    cursor: pointer;
+                     color: black;
+                     font-weight: 400;
+                    //  &:hover{
+                    //     color: white;
+                    //  }
+                }
+              
+            } 
+            }
+            .btn{
+                width: 85%;
+               cursor: pointer;
+                display: flex;
+                gap: 30px;
+                height: 7vh;
+                text-decoration: none;
+                .item{
+                //    padding: 0.5rem 0.5rem 0.5rem 1rem;
                     display: flex;
                     gap: 10px;
                     justify-content: center;
                     align-items: center;
                     cursor: pointer;
                     padding-left:1rem;
-                  
                     
-
-                   
                 .link-text
                 {
                     cursor: pointer;
                     text-decoration: none;
                      color: #000000;
+                     font-weight: 400;
                     //  &:hover{
                     //     color: white;
                     //  }
-                    
                 }
                 .icon{
                     font-size: 20px;
                     cursor: pointer;
-                     color: black;
+                    color: black;
+                     font-weight: 400;
                     //  &:hover{
                     //     color: white;
                     //  }
                 }
-                span{
-                    font-size: 17px;
-                    cursor: pointer;
-                    font-weight: 500;
-                    color: #000000;
-                    // &:hover{
-                    //     color: white;
-                    //  }
-                    
-
-                }
-            }
-          
-                
-               
-
-               
+              
+            } 
             }
         }
         }
@@ -189,7 +230,7 @@
     }
 }
 .active{
-    background-color: #15adffc7;
+    background-color:$main-color;
     color: white;
     border-radius: 9px;
 

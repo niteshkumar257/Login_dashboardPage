@@ -4,9 +4,10 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import LinearProgress from '@mui/material/LinearProgress';
 
+
 const DataTable = ({rows,columns,rowsPerPageOption,h,expandHandler}) => {
 
-console.log(expandHandler);
+
   const [wid,setWidth]=useState(1);
   return (
   <>

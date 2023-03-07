@@ -1,3 +1,4 @@
+$main-color:#1377C0;
 .dash
 {
 
@@ -61,7 +62,7 @@ flex-direction: column;
       flex-direction: column;
       font-size: 1.2rem;
       font-weight: 800;
-      color: #1378c0b7;
+      color: $main-color;
       li {
       
        list-style: none;
@@ -85,7 +86,7 @@ flex-direction: column;
     gap: 20px;
         .info-container
         {
-          color:  #1378c09a;
+          color:  $main-color;
             flex: 4;
             height: 5vh;
             display: flex;
@@ -101,7 +102,7 @@ flex-direction: column;
                 list-style: none;
                 font-size: 1rem;
                 label{
-                color: #1378c09a;
+                color: $main-color;
                 }
                 span{
                   color: #797979;

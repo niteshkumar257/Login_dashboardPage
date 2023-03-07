@@ -1,3 +1,4 @@
+$main-color:#1377C0;
 .teachers-container
 {
       display: flex;
@@ -27,7 +28,7 @@
             }
             .teachers-info-detail-container{
                   width: 100%;
-                
+             
                   display: flex;
                   flex-direction: column;
               gap:12px;
@@ -38,8 +39,10 @@
             border-radius: 9px;
             display: flex;
            flex-direction: column;
+           padding-bottom: 20px;
           
-           height:70vh;
+          
+           height:auto;
            width: 100%;
            gap: 12px;
 
@@ -127,6 +130,7 @@
       color: rgb(56, 56, 56);
 }
 .buttonSubmit{
+      
       display: flex;
       align-items: center;
       justify-content: center;
@@ -136,6 +140,7 @@
       height: 50px;
       border-radius: 9px;
       color: white;
-      background-color: #009df1;
+      background-color:$main-color;
+      text-decoration: none;
 
 }

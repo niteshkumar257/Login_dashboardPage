@@ -1,3 +1,6 @@
+$main-color:#1377C0;
+$sub-heading:rgb(83, 83, 83);
+$container-bottom-border:.2px solid rgb(227, 227, 227);;
 .SingleStudent-container
 {
     display: flex;
@@ -15,13 +18,14 @@
            row-gap: 20px;
             height: auto;
            .student-info-main-container{
-            box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+            // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
               display: flex;
+              width: 100%;
               flex-direction: column;
               justify-content: center;
               align-items: center;
              border-radius: 9px;
-              width:100%;
+              
             .student-info-heading{
                 
                 border-radius: 9px;
@@ -44,13 +48,15 @@
                
                 width: 98%;
                
-                 height: 30vh;
+                 height: auto;
                 flex: 1;
+                border-radius: 0px;
+            border-bottom: $container-bottom-border;
                 
                 }
                 .basic-info{
                     padding: 0.5rem;
-                    border-radius: 9px;
+                    border-radius: 0px;
                     width: 100%;
                     display: flex;
                     flex: 1;
@@ -68,7 +74,7 @@
                             display: flex;
                             justify-content: center;
                             align-items: center;
-                            background-color: rgba(199, 244, 255, 0.297);
+                            
                             height: 150px;
                             width: 150px;
                             border-radius: 9px;
@@ -99,7 +105,7 @@
                               
                                 font-size: 1.3rem;
                                 font-weight: 600;
-                              color: rgb(83, 83, 83);
+                              color:$sub-heading;
                           
         
                             }
@@ -126,11 +132,11 @@
                                .lable{
                                 font-size: 1rem;
                                 font-weight: 500;
-                                color: #1378c09a;
+                                color: $main-color;
                             }
                             span{
                                 font-size: 1rem;
-                                color: rgb(83, 83, 83);
+                                color: $sub-heading;
                             }
                               
                              
@@ -184,8 +190,9 @@
                 width: 98%;
                
                 padding: 0.5rem;
-                border-radius: 9px;
-                box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                // border-radius: 9px;
+        border-bottom: .2px solid rgb(185, 185, 185);
+                // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
             //    background-color: aquamarine;
                align-items: center;
                 display: flex;
@@ -199,6 +206,7 @@
                     h1{
                         font-size: 1.3rem;
                         font-weight: 700;
+                        color:$sub-heading
         
                     }
                 }
@@ -225,11 +233,11 @@
                             .lable{
                                 font-size: .9rem;
                                 font-weight: 500;
-                                color: #1378c09a;
+                                color:$main-color;
                             }
                             span{
                                 font-size: 1rem;
-                                color: rgb(83, 83, 83);
+                                color: $sub-heading;
                                
                             }
                             
@@ -240,10 +248,10 @@
             .fee-info{
               
                width: 98%;
-                box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+                // box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
                 border-radius: 9px;
         padding: 0.5rem;
-        height: 110vh;
+        height: auto;
         
                 .fee-details-heading{
         
@@ -278,12 +286,13 @@
                         padding: 0.5rem;
                         border-radius: 9px;
                         box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-                       flex: 1;
+                     
                        height: 100px;
                      
                        display: flex;
                        justify-content: space-around;
                        gap: 10px;
+                    width: 50vh;
                    
                     .fee-amount{
                         
@@ -291,13 +300,18 @@
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
+                      
                         span{
                             font-size: 1rem;
+                           
+                            color:$main-color;
         
                         }
                         h1{
                             font-size: 1.4rem;
                             font-weight: 600;
+                            
+                            color:$main-color;
         
                         }
                     }
@@ -325,7 +339,9 @@
                     
                     flex: 2.5;
                     display: flex;
-                  
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     width: 100%;
                 min-height: 20vh;
                 max-height: 70vh;
@@ -340,11 +356,102 @@
                    
                 }
             }
-            .perfomanceAnalytic{
-                height:40vh;
-              
-                box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+            .perfomanceAnalytic-info{
+                height:auto;
+                padding: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                border-radius: 9px;
+                // box-shadow: 0 2px 2px rgb(0 0 0 / 10%), 0 4px 2px rgb(0 0 0 / 10%);
                 width: 98%;
+                row-gap: 20px;
+              
+                .performanceAnalytic-heading{
+                    width: 90%;
+                    height: auto;
+                  
+                      h1{
+                          font-size: 1.3rem;
+                          font-weight: 700;
+                      color:$sub-heading;
+              
+                      }
+                }
+                .performanceAnalytic-toggle-button{
+                    button{
+                     height: 54px;
+                     width: 100px;
+                     background-color:$main-color;
+                            color: white;
+                        font-weight: 600;
+                        font-size: 1rem;
+                            border-radius: 9px;
+                            border: none;
+                            text-decoration: none;
+                           animation: roll-in-right 0.6s ease-out both;
+                           .roll-in-right {
+	animation: roll-in-right 0.6s ease-out both;
+}
+                    }
+                }
+                .performanceAnalytic-body-content{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 30px;
+                    .performanceAnalytic-body-content-table{
+                        display: flex;
+                        row-gap: 30px;
+                        
+                        
+                       
+                    }
+                    .performanceAnalytic-body-content-charts{
+                        display: grid;
+                        grid-template-columns: repeat(2,2fr);
+                        grid-gap:20px;
+            
+                        .container{
+                            display: flex;
+                            flex-direction: column;
+                            row-gap: 20px;
+                            align-items: center;
+                            justify-content: center;
+                          
+                            border-radius: 9px;
+                            height: 50vh;
+                         
+                            .heading{
+                                display: flex;
+                                width: 98%;
+                                align-items: center;
+                                justify-content: space-between;
+                                .head{
+                                    color: rgb(79, 79, 79);
+                                    font-size: 1.2rem;
+                                }
+                                .subhead{
+                                  color:rgb(100, 100, 100);
+                                  font-size: .7rem;
+                                }
+
+                               
+                            }
+                            .content{
+                                width: 98%;
+                                height: 30vh;
+                                display: flex;
+                                justify-content: flex-start;
+                             
+                                padding: 0;
+                              
+
+                            }
+                        }
+                       
+                    }
+                    
+                }
             }
         }
     }
