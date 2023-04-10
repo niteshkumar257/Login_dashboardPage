@@ -3,7 +3,8 @@ $main-color:#1377C0;
 {
     display: flex;
     flex-direction: columns;
-  
+    position: sticky;
+    top: 0;
     width: 200px;
    border-right: .5px solid rgb(225, 225, 225);
    justify-content: center;

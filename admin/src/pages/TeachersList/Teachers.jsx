@@ -25,20 +25,17 @@ const Teachers = (props) => {
   let school_id = (localStorage.getItem("superadmin_school") === null)?decodeToken.result.school_id:localStorage.getItem("superadmin_school");
   let navigate = useNavigate();
   useEffect(() => {
-    const cachedData = localStorage.getItem(`school_${school_id}_teacherDetails`);
-    if (cachedData) {
-     
-      setRows(JSON.parse(cachedData));
-    } else {
-      axios.get(`http://localhost:8080/schools/${school_id}/allteacher`)
+   
+   
+      axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/allteacher`)
         .then((data) => { 
           console.log(data.data.teacherDetails);
           setRows(data.data.teacherDetails); 
-          localStorage.setItem(`school_${school_id}_teacherDetails`, JSON.stringify(data.data.teacherDetails));
+         
         }).catch((err) => {
           console.log(err);
         })
-    }
+    
   }, [])
 
   const [TeacherId, setTeacherid] = useState(0);
@@ -88,24 +85,27 @@ const Teachers = (props) => {
               </div>
             </div>
           </div>
-          
-            <Box sx={{
+          <div className='table'>
+          <Box sx={{
               display: "flex",
 
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center",
+              marginBottom:5
             }}>
-              {<DataTable expandHandler={isExpanded} rows={rows} columns={columns.concat(viewColumn)} />
+              {  <DataTable expandHandler={isExpanded} rows={rows} columns={columns.concat(viewColumn)} />
               }
 
             </Box>
          
-          {rows.length>0  && <div className='newButton'>
+          <div className='newButton'>
             <Link to="/Teachers/newTeacher">
               <button>Add new Teacher</button>
             </Link>
 
-          </div>}
+          </div>
+          </div>
+           
         </div>
       </div>
 

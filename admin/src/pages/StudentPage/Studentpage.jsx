@@ -19,6 +19,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from '@mui/material';
 
 import Fee from "../../assest/SchoolFee.png";
+import { margin } from '@mui/system';
 
 let MonthArray = ["Jan", "Feb", "March", "April", "Jan", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 const columns = [
@@ -177,15 +178,22 @@ const SingleStudentpage = (props) => {
 
 
   const renderFees = () => {
-    axios.get(`http://localhost:8080/students/${student_id}/fees`)
+    axios.get(`https://school-management-api.azurewebsites.net/students/${student_id}/fees`)
       .then((data) => {
         let tot = parseInt(data.data.studentFees[0].first_installment) + parseInt(data.data.studentFees[0].second_installment) + parseInt(data.data.studentFees[0].third_installment);
         setTotalFees(tot);
 
+        let dateString = data.data.studentFees[0].first_installment_eta;
+        let date1 = dateString.slice(8,10) + "-" + dateString.slice(5,7) + "-" + dateString.slice(0,4);
+        dateString = data.data.studentFees[0].second_installment_eta;
+        let date2 = dateString.slice(8,10) + "-" + dateString.slice(5,7) + "-" + dateString.slice(0,4);
+        dateString = data.data.studentFees[0].third_installment_eta;
+        let date3 = dateString.slice(8,10) + "-" + dateString.slice(5,7) + "-" + dateString.slice(0,4);
+
         let newFeeDetails = [];
-        let arr1 = { id: 1, amount: data.data.studentFees[0].first_installment, lastDate: data.data.studentFees[0].first_installment_eta.slice(0, 10), status: (data.data.studentFees[0].first_installment_status).charAt(0).toUpperCase() + (data.data.studentFees[0].first_installment_status).slice(1) };
-        let arr2 = { id: 2, amount: data.data.studentFees[0].second_installment, lastDate: data.data.studentFees[0].second_installment_eta.slice(0, 10), status: (data.data.studentFees[0].second_installment_status).charAt(0).toUpperCase() + (data.data.studentFees[0].second_installment_status).slice(1) };
-        let arr3 = { id: 3, amount: data.data.studentFees[0].third_installment, lastDate: data.data.studentFees[0].third_installment_eta.slice(0, 10), status: (data.data.studentFees[0].third_installment_status).charAt(0).toUpperCase() + (data.data.studentFees[0].third_installment_status).slice(1) };
+        let arr1 = { id: 1, amount: data.data.studentFees[0].first_installment, lastDate: date1, status: (data.data.studentFees[0].first_installment_status).charAt(0).toUpperCase() + (data.data.studentFees[0].first_installment_status).slice(1) };
+        let arr2 = { id: 2, amount: data.data.studentFees[0].second_installment, lastDate: date2, status: (data.data.studentFees[0].second_installment_status).charAt(0).toUpperCase() + (data.data.studentFees[0].second_installment_status).slice(1) };
+        let arr3 = { id: 3, amount: data.data.studentFees[0].third_installment, lastDate: date3, status: (data.data.studentFees[0].third_installment_status).charAt(0).toUpperCase() + (data.data.studentFees[0].third_installment_status).slice(1) };
         newFeeDetails.push(arr1);
         newFeeDetails.push(arr2);
         newFeeDetails.push(arr3);
@@ -203,7 +211,7 @@ const SingleStudentpage = (props) => {
 
 
   const updatePayment = (first_installment_status, second_installment_status, third_installment_status) => {
-    axios.put(`http://localhost:8080/students/${student_id}/updatepaymentstatus`, {
+    axios.put(`https://school-management-api.azurewebsites.net/students/${student_id}/updatepaymentstatus`, {
       first_installment_status,
       second_installment_status,
       third_installment_status
@@ -238,7 +246,7 @@ const SingleStudentpage = (props) => {
   useEffect(() => {
     let parent_id;
     // axios request for student details
-    axios.get(`http://localhost:8080/students/${student_id}`)
+    axios.get(`https://school-management-api.azurewebsites.net/students/${student_id}`)
       .then((data) => {
         setName(data.data.studentDetails[0].student_name);
         setMedium(data.data.studentDetails[0].medium);
@@ -247,7 +255,7 @@ const SingleStudentpage = (props) => {
         setClass(data.data.studentDetails[0].class_id);
         parent_id = data.data.studentDetails[0].parent_id;
         // axios request for parent details
-        axios.get(`http://localhost:8080/parents/${parent_id}`)
+        axios.get(`https://school-management-api.azurewebsites.net/parents/${parent_id}`)
           .then((data) => {
             setPrimaryNumber(data.data.parentDetails.whatsapp_no);
             SetEmail(data.data.parentDetails.email);
@@ -282,14 +290,14 @@ const SingleStudentpage = (props) => {
   };
   const handleDialogAgree = () => {
     if (installmentId == 1) {
-      setFirstInstallment("paid");
-      updatePayment("paid", second_installment_status, third_installment_status);
+      setFirstInstallment("Paid");
+      updatePayment("Paid", second_installment_status, third_installment_status);
     } else if (installmentId == 2) {
-      setSecondInstallment("paid");
-      updatePayment(first_installment_status, "paid", third_installment_status);
+      setSecondInstallment("Paid");
+      updatePayment(first_installment_status, "Paid", third_installment_status);
     } else {
-      setThirdInstallment("paid");
-      updatePayment(first_installment_status, second_installment_status, "paid");
+      setThirdInstallment("Paid");
+      updatePayment(first_installment_status, second_installment_status, "Paid");
     }
     setInstallmentId(0);
     setOpenDialog(false);
@@ -389,9 +397,13 @@ const SingleStudentpage = (props) => {
   const [buttonValue, setButtonValue] = useState("Show");
   const perFormanceHandler = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/students/${student_id}/performance`)
-      .then((data) => {
-        console.log(data.data.allmarksDetail);
+    axios.get(`https://school-management-api.azurewebsites.net/students/${student_id}/performance`)
+      .then((data) => { 
+        for(let i = 0; i < data.data.allmarksDetail.length; i++){
+          let dateString = data.data.allmarksDetail[i].test_date;
+          let date1 = dateString.slice(8,10) + "-" + dateString.slice(5,7) + "-" + dateString.slice(0,4);
+          data.data.allmarksDetail[i].test_date = date1;
+        }
         setTestDetail(data.data.allmarksDetail);
 
       }).catch((err) => {
@@ -407,9 +419,7 @@ const SingleStudentpage = (props) => {
       setShowPerformance(0);
       setButtonValue("Show");
     }
-  }
-  console.log(TestTableColumn);
-  console.log(TestTableRow);
+  } 
   return (
     <>
       <div className="SingleStudent-container">
@@ -560,6 +570,8 @@ const SingleStudentpage = (props) => {
               <div className='performanceAnalytic-toggle-button' >
                 {showPerformance == 0 && <button onClick={perFormanceHandler}>{buttonValue}</button>}
               </div>
+              { TestTableColumn.length == 0 && TestTableRow.length == 0 && <h3 style={{margin: "auto"}}>No data To Show!</h3> 
+              }
               {TestTableColumn.length > 0 && TestTableRow.length > 0 &&
                 <div className='PerformanceAnalytic-body'>
                   <div className="performanceAnalytic-body-content">

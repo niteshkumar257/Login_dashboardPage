@@ -5,8 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import LinearProgress from '@mui/material/LinearProgress';
 
 const DataTable = ({rows,columns,rowsPerPageOption,h,expandHandler}) => {
-
-console.log(expandHandler);
+ 
   const [wid,setWidth]=useState(1);
   return (
   <>
@@ -82,10 +81,10 @@ console.log(expandHandler);
           LoadingOverlay: LinearProgress,
         }}
        
-      // disableColumnMenu
+       disableColumnMenu
         autoHeight={true}
         autoPageSize={true}
-        disableSelectionOnClick
+        // disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
       />
     </Box>

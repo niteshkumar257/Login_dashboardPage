@@ -1,107 +1,22 @@
 import Sidebar from "../../components/Sidebar/Sidebar"
 import Navbar from "../../components/Navbar/Navbar"
 import "./Studentform.scss";
+import { useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import { useState } from 'react';
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import moment from "moment/moment";
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { DatePicker } from "@mui/x-date-pickers";
+
 
 // select medium for the selecti list
-const Medium = [
-  {
-    value: 'English',
-    label: 'English',
-  },
-  {
-    value: 'Hindi',
-    label: 'Hindi',
-  },
 
-];
-
-// select course for the drop down
-
-const Course = [
-  {
-    value: 'foundation',
-    label: 'Foundation',
-  },
-  {
-    value: 'Jee-12',
-    label: 'Jee-12',
-  },
-  {
-    value: 'Jee-11',
-    label: 'Jee-11',
-  },
-  {
-    value: 'Neet-11',
-    label: 'Neet-11',
-  },
-  {
-    value: 'Neet-12',
-    label: 'Neet-12',
-  },
-]
-
-// select board from boardList
-const Board = [
-  {
-    value: 'CBSE',
-    label: 'CBSE',
-  },
-  {
-    value: 'ICSE',
-    label: 'ICSE',
-  },
-  {
-    value: 'State Board',
-    label: 'State Board',
-  },
-
-]
-
-// choose  a class
-const Batch = [
-
-  {
-    value: '12',
-    label: '12',
-  },
-  {
-    value: '11',
-    label: '11',
-  },
-  {
-    value: '10',
-    label: '10',
-  },
-  {
-    value: '9',
-    label: '9',
-  },
-  {
-    value: '8',
-    label: '8',
-  },
-  {
-    value: '7',
-    label: '7',
-  },
-  {
-    value: '6',
-    label: '6',
-  },
-  {
-    value: '5',
-    label: '5',
-  },
-
-]
 
 // gender 
 const Gender = [
@@ -125,6 +40,22 @@ const Gender = [
 
 
 ]
+const ChangeFormatOfDropDownValue=(arr1,arr2)=>
+{
+    const tempArray=[];
+    for (let i = 0; i < arr1.length; i++) {
+      tempArray.push({
+        id: arr1[i],
+        value:arr2[i],
+        label:arr2[i]
+      });
+    }
+    return tempArray;
+
+}
+const course_id=[1,2,3,4,5];
+const course_name=["a","b","c","d","e"];
+console.log(ChangeFormatOfDropDownValue(course_id,course_name));
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const StudentForm = (props) => {
   let decodeToken = jwt_decode(localStorage.getItem("auth_token"));
@@ -168,6 +99,7 @@ const StudentForm = (props) => {
   const [MotherName, setMotherName] = useState("");
   const [FatherProfession, setFatherProfession] = useState("");
   const [MotherProfession, setMotherProfession] = useState("");
+  const [classId, setClassId] = useState("");
 
 
   const [PrimaryNumber, setPrimaryNumber] = useState("");
@@ -205,8 +137,74 @@ const StudentForm = (props) => {
 
 
 
+  // drop down
+  const [courseArray,setCourseArray]=useState([]);
+  const [MediumArray,setMediumArray]=useState([]);
+  const [ClassArray,setClassArray]=useState([]);
+  const [boradArray,setBoardArray]=useState([]);
+
+
+
+  // setCourseArray(ChangeFormatOfDropDownValue(course_id,course_name))
+  // setMediumArray(ChangeFormatOfDropDownValue(medium_id,medium_name))
+  // setClassArray(ChangeFormatOfDropDownValue(class_id,class_name))
+  // setboardArray(ChangeFormatOfDropDownValue(board_id,board_name))
+
+
+
+
 
   // fee detals
+  
+useEffect(()=>
+{
+  axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/getCourseId`, { headers: { 'Content-Type': 'application/json' } })
+  .then((res) => {
+     
+     console.log(res.data.course_name);
+    setCourseArray(ChangeFormatOfDropDownValue(res.data.course_id,res.data.course_name));
+     
+      
+  })
+  .catch((err) => {
+      console.log(err);
+  });
+  axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/getMediumId`, { headers: { 'Content-Type': 'application/json' } })
+  .then((res) => {
+     
+      console.log(res.data);
+      setMediumArray(ChangeFormatOfDropDownValue(res.data.medium_id,res.data.medium_name));
+    
+      
+  })
+  .catch((err) => {
+      console.log(err);
+  });
+
+  axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/getBoardId`, { headers: { 'Content-Type': 'application/json' } })
+  .then((res) => {
+     
+      console.log(res.data);
+      setBoardArray(ChangeFormatOfDropDownValue(res.data.board_id,res.data.board_name));
+     
+      
+  })
+  .catch((err) => {
+      console.log(err);
+  });
+  axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/getClassId`, { headers: { 'Content-Type': 'application/json' } })
+  .then((res) => {
+     
+      console.log(res.data);
+     setClassArray(ChangeFormatOfDropDownValue(res.data.class_id,res.data.class_name));
+    
+      
+  })
+  .catch((err) => {
+      console.log(err);
+  });
+},[]);
+ 
 
   const handleChange1 = (e) => {
 
@@ -227,17 +225,10 @@ const StudentForm = (props) => {
   }
 
 
+  
 
-
-
-
-
-
-
-
-  const AddStudentHandler = (e) => {
-    e.preventDefault();
-
+  const AddStudentHandler = (e) => {    
+    e.preventDefault(); 
     setNameError(false);
     setMediumError(false);
     setAltNumberError(false);
@@ -257,50 +248,64 @@ const StudentForm = (props) => {
     setThirdError(false);
     setGenderError(false);
     setEmailError(false);
-    setAadharError(false);
+    setAadharError(false); 
 
 
+    if (name == ''){toast.error("Student name is required!"); return;}
+    if (medium == ''){ toast.error("Medium name is required!"); return;}
+    if (Class == ''){ toast.error("Class name is required!"); return;}
+    if (course == '') {toast.error("Course name is required!"); return;}
+    if (gender == '') {toast.error("Gender name is required!"); return;}
+    if (email == '') {toast.error("Father Email name is required!"); return;}
+    if (Fathername == '') {toast.error("Father name is required!"); return;}
+    if (MotherName == '') {toast.error("Mother name is required!"); return;}
+    if (FatherProfession == '') {toast.error("Father Profession is required!"); return;}
+    if (MotherProfession == '') {toast.error("Mother Profession is required!"); return;}
+    if (AlternateNumber.length != 10) {toast.error("Alternate mobile number should be of 10 digits!"); return;}
+    if (PrimaryNumber.length != 10) {toast.error("Primary mobile number should be of 10 digits!");  return;}
+    if (date == '') {toast.error("Date is required!"); return;}
+    if (Address == '') {toast.error("Address is required!"); return;}
+    if (AadharNumber == '') {toast.error("Aadhar is required!"); return;}
+    if (board == '') {toast.error("Board is required!"); return;}
+    if (firstInstallMentAmount == '') {toast.error("First Installment amount is required!"); return;}
+    if (secondInstallMentAmount == '') {toast.error("Second Installment is required!"); return;}
+    if (thirdInstallMentAmount == '') {toast.error("Third Installment is required!"); return;}
+
+    if (firstInsallMentEta == '') {toast.error("First installment last date is required!"); return;}
+    if (secondInsallMentEta == ''){toast.error("Second installment last date is required!"); return;}
+    if (thirdInsallMentEta == '') {toast.error("Third installment last date is required!"); return;}
+ 
+    if(Class == 'PRE KG1'){
+      setClassId("-1");
+    }else if(Class == 'PRE KG2'){
+      setClassId("-2");
+    }else{
+      setClassId(Class);
+    }
 
 
-    if (name == '') setNameError(true);
-    if (medium == '') setMediumError(true);
-    if (Class == '') setClassError(true);
-    if (course == '') setCourseError(true);
-    if (gender == '') setGenderError(true);
-    if (email == '') setEmailError(true);
-    if (Fathername == '') setFahterNameError(true);
-    if (MotherName == '') setMohterNameError(true);
-    if (FatherProfession == '') setFatherProfessionError(true);
-    if (MotherProfession == '') setmotherProfessionError(true);
-    if (AlternateNumber == '') setAltNumberError(true);
-    if (PrimaryNumber == '') setPrimaryError(true);
-    if (date == '') setDateError(true);
-    if (Address == '') setAddressError(true);
-    if (AadharNumber == '') setAadharError(true);
-    if (board == '') setBoardError(true);
-    if (firstInstallMentAmount == '') setOneError(true);
-    if (secondInstallMentAmount == '') setTwoError(true);
-    if (thirdInstallMentAmount == '') setThirdError(true);
+   
+        var dateObj = new Date();
+        let todaydate = dateObj.toJSON(); 
+        todaydate = todaydate.slice(0,10);
+      let first_installment_submit = null, second_installment_submit = null, third_installment_submit = null;
+      if(firstInstallMentStatus == 1){
+        first_installment_submit = todaydate;
+      }
 
-    if (firstInsallMentEta == '') setFirstInstallMentEta(true);
-    if (secondInsallMentEta == '') setSecondInstallMentEta(true);
-    if (thirdInsallMentEta == '') setThirdInstallMentEta(true);
+      if(secondInstallMentStatus == 1){
+        second_installment_submit = todaydate;
+      }
 
-    if (firstInsallMentEta == '') setFirstInstallMentError(true);
-    if (secondInsallMentEta == '') setSecondInstallMentError(true);
-    if (thirdInsallMentEta == '') setThirdInstallMentError(true);
-
-
-
-
-    if (name.length != 0 && medium.length != 0 && Class.length != 0 && course.length != 0 && email.length != 0 && Fathername.length != 0 && MotherName.length != 0 && FatherProfession.length != 0 && MotherProfession.length != 0 && AlternateNumber.length != 0 && PrimaryNumber.length != 0 && date.length != 0 && Address.length != 0 && board.length != 0 &&
-      firstInstallMentAmount.length != 0 && secondInstallMentAmount.length != 0 && thirdInstallMentAmount.length != 0) {
-
-
+      if(thirdInstallMentStatus == 1){
+        third_installment_submit = todaydate;
+      }
+      
       let totalFees = parseInt(firstInstallMentAmount) + parseInt(secondInstallMentAmount) + parseInt(thirdInstallMentAmount);
 
-      let formData = ({
-        student_name: name, gender, dob: date, address: Address, class_id: Class, course_name: course,
+       
+      axios.post(`https://school-management-api.azurewebsites.net/schools/${school_id}/addStudent`, {
+        student_name: name, gender, dob: date, address: Address, class_id: classId, course_name: course,
         medium, board, father_name: Fathername, father_profession: FatherProfession, mother_name: MotherName,
         mother_profession: MotherProfession, whatsapp_no: PrimaryNumber, alternative_mobile: AlternateNumber,
         email, total_fees: totalFees, first_installment: firstInstallMentAmount,
@@ -308,19 +313,8 @@ const StudentForm = (props) => {
         second_installment: secondInstallMentAmount, second_installment_eta: secondInsallMentEta,
         second_installment_status: secondInstallMentStatus,
         third_installment: thirdInstallMentAmount, third_installment_eta: thirdInsallMentEta,
-        third_installment_status: thirdInstallMentStatus, aadhar_no: AadharNumber
-      });
-
-      axios.post(`http://localhost:8080/schools/${school_id}/addStudent`, {
-        student_name: name, gender, dob: date, address: Address, class_id: Class, course_name: course,
-        medium, board, father_name: Fathername, father_profession: FatherProfession, mother_name: MotherName,
-        mother_profession: MotherProfession, whatsapp_no: PrimaryNumber, alternative_mobile: AlternateNumber,
-        email, total_fees: totalFees, first_installment: firstInstallMentAmount,
-        first_installment_eta: firstInsallMentEta, first_installment_status: firstInstallMentStatus,
-        second_installment: secondInstallMentAmount, second_installment_eta: secondInsallMentEta,
-        second_installment_status: secondInstallMentStatus,
-        third_installment: thirdInstallMentAmount, third_installment_eta: thirdInsallMentEta,
-        third_installment_status: thirdInstallMentStatus, aadhar_no: AadharNumber
+        third_installment_status: thirdInstallMentStatus, aadhar_no: AadharNumber,
+        first_installment_submit, second_installment_submit, third_installment_submit
       }).then((data) => {
         toast.success(data.data.message, {
           position: "top-center",
@@ -334,27 +328,18 @@ const StudentForm = (props) => {
         });
 
       }).catch((err) => {
-        console.log(err);
-      })
-
-    }
-    else {
-      toast.error('All Field are Required', {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        toast.error('All Field are Required', {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
-    }
-
-
-
-
-
+  
     setName("");
     setEmail("");
     setGender("");
@@ -379,18 +364,13 @@ const StudentForm = (props) => {
     setThirdInstallMentEta("");
     setFirstInstallMentStatus(0);
     setSecondInstallMentStatus(0);
-    setThirdInstallMentStatus(0);
-
-
-
-
-
+    setThirdInstallMentStatus(0); 
   }
 
   const [isExpanded, setExpanded] = useState(false);
   const isExpandedHandler = (value) => {
     setExpanded(value);
-  }
+  } 
 
   return (
     <div className='studentForm-container '>
@@ -430,7 +410,7 @@ const StudentForm = (props) => {
                         ))}
                       </TextField>
                       <TextField value={course} sx={{ flex: 1 }} error={courseError} select label="Course" required onChange={(e) => setCourse(e.target.value)} helperText="Select Course">
-                        {Course.map((option) => (
+                        {courseArray.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -438,16 +418,16 @@ const StudentForm = (props) => {
                       </TextField>
                     </div>
                     <div className='student-info-section '>
-                      <TextField value={date} sx={{ flex: 1 }} error={dateError} variant="outlined" helperText="Select Date Of Birth" type="date" onChange={(e) => setDate(e.target.value)} />
+                      <DatePicker format="DD/MM/YYYY" value={date} sx={{ flex: 1 }} error={dateError} variant="outlined" helperText="Select Date Of Birth" type="date"   onChange={(e) => setDate(e)} />
                       <TextField value={Class} sx={{ flex: 1 }} error={classError} select label="Class" required onChange={(e) => setClass(e.target.value)} helperText="Select Class">
-                        {Batch.map((option) => (
+                        {ClassArray.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
                         ))}
                       </TextField>
                       <TextField value={medium} sx={{ flex: 1 }} error={mediumError} required select helperText="Select Medium" label="Medium" onChange={(e) => setMedium(e.target.value)}>
-                        {Medium.map((option) => (
+                        {MediumArray.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -459,7 +439,7 @@ const StudentForm = (props) => {
                       <TextField value={AadharNumber} sx={{ flex: 1 }} error={aadhaError} label="Aadhar Number" type="text" helperText="Enter Aadhar Number" required
                         onChange={(e) => setAadharNumber(e.target.value)} />
                       <TextField value={board} sx={{ flex: 1 }} error={boardError} required select label="Board" helperText="Select Board" onChange={(e) => setBoard(e.target.value)} >
-                        {Board.map((option) => (
+                        {boradArray.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -511,17 +491,18 @@ const StudentForm = (props) => {
                             color="success"
                           />
                           {!firstInstallMentStatus &&
-                            <TextField
+                            <DatePicker
                               sx={{
                                 height: "5vh"
                               }}
                               variant="outlined"
                               type="date"
+                              format="DD/MM/YYYY"
                               required
                               value={firstInsallMentEta}
                               helperText="Select a Date"
                               error={firstInstallMentError}
-                              onChange={(e) => setFirstInstallMentEta(e.target.value)} />}
+                              onChange={(e) => setFirstInstallMentEta(e)} />}
                         </div>
 
 
@@ -535,9 +516,9 @@ const StudentForm = (props) => {
                           <Checkbox
                             checked={secondInstallMentStatus} required onChange={(e) => handleChange2(e)} color="success" />
                           {!secondInstallMentStatus &&
-                            <TextField sx={{ height: "5vh" }} variant="outlined" value={secondInsallMentEta} type="date" required
+                            <DatePicker sx={{ height: "5vh" }} variant="outlined" value={secondInsallMentEta} type="date" format="DD/MM/YYYY" required
                               helperText="Select a Date" error={secondInstallMentError}
-                              onChange={(e) => setSecondInstallMentEta(e.target.value)} />}
+                              onChange={(e) => setSecondInstallMentEta(e)} />}
                         </div></div>
                       <div className='fee-info-section-installment'>
                         <TextField
@@ -556,12 +537,26 @@ const StudentForm = (props) => {
                             inputProps={{ 'aria-label': 'controlled' }}
                           />
                           {!thirdInstallMentStatus &&
-                            <TextField variant="outlined"
-                              value={thirdInsallMentEta}
+                        
+                            // <DatePicker 
+                            // variant="outlined"
+                            //   value={thirdInsallMentEta}
+                            //   format="DD-MM-YYYY"
+                            //  />
+                            <DatePicker
+                              sx={{
+                                height: "5vh"
+                              }}
+                              variant="outlined"
                               type="date"
-                              error={thirdInstallMentError}
+                              format="DD/MM/YYYY"
+                              required
+                              value={thirdInsallMentEta}
                               helperText="Select a Date"
-                              onChange={(e) => setThirdInstallMentEta(e.target.value)} />}
+                              error={thirdInstallMentError}
+                              onChange={(e) => setThirdInstallMentEta(e)} />
+                            
+                          }
                         </div>
                       </div>
                     </div>

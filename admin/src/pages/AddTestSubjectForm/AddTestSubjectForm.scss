@@ -67,55 +67,14 @@ $main-color:#1377C0;
                   display: flex;
                  
                   gap: 25px;
+                  
             }
           
            }
           
 
            }
-      //      .teachers-info-detail-parent-container{
-      //       box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-      //       border-radius: 9px;
-      //       display: flex;
-      //      flex-direction: column;
-      //      height: 50vh;
-      //      width: 100%;
-      //      gap: 20px;
-      // //      .student-info-detail-parent-container-subheading{
-      // //       margin-top: 10px;
-      // //       width: 100%;
-      // //       display: flex;
-      // //       align-items: center;
-      // //       padding-left: 1rem;
-      // //   }
-      // //   .student-info-detail-parent-container-textfield{
-      // //       display: flex;
-      // //       flex-direction: column;
-      // //       align-items: center;
-      // //       justify-content: center;
-      // //       gap: 12px;
-         
-      // //       .parent-info-section{
-                
-      // //             width: 98%;
-      // //             display: flex;
-                 
-      // //             gap: 25px;
-      // //       }
-
-      // //   }
-         
-      //      }
-      //      .student-info-detail-fee-container{
-      //       box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-      //       border-radius: 9px;
-      //       display: flex;
-      //       flex-direction: column;
-      //       height: 40vh;
-      //       width: 100%;
-          
-           
-      //      }
+      
       }
           
         }
@@ -141,10 +100,33 @@ $main-color:#1377C0;
       border-radius: 9px;
       color: white;
       background-color:$main-color;
-      text-decoration: none;
-
+      text-decoration: none; 
 }
 
-.viewButton{
-      margin-left: 10%;
+.teachers-info-section FormControl{
+      width: 250px
 }
+
+.grid-value{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: left; 
+}
+
+.subject-values{
+      display: flex;
+      width: 30%; 
+      margin-left: 10px; 
+      justify-content: space-evenly;
+      align-items: center; 
+}
+
+.subject-values h3{
+      width: 40%;
+}
+
+.subject-values TextField{
+      width: 60%;
+}
+ 

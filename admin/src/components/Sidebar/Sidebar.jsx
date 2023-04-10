@@ -12,7 +12,7 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import "./Sidebar.scss"
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { useState, useEffect } from 'react';
-import jwt_decode from "jwt-decode";
+import jwt_decode from "jwt-decode"; 
 
 
 const Sidebar = (props) => {
@@ -21,7 +21,7 @@ const Sidebar = (props) => {
       path: "/dashBoard",
       name: "Dashboard",
       icon: <DashboardOutlinedIcon className='icon' />
-    },
+    },    
     {
       path: "/Student",
       name: "Student",
@@ -52,6 +52,16 @@ const Sidebar = (props) => {
 
 
     },
+    // {
+    //   path: "/addSchool",
+    //   name: "Add School",
+    //   icon: <AddCircleOutlineOutlinedIcon className='icon' />
+    // },
+    // {
+    //   path: "/addTest",
+    //   name: "Add Test",
+    //   icon: <AddCircleOutlineOutlinedIcon className='icon' />
+    // }
    
 
   ]
@@ -75,17 +85,43 @@ const logoutHandlerSuperAdmin=(e)=>
 }
 const HomepageNavigator=(e)=>
 {
-   e.preventDefault();
+  
    navigate('/superAdmin');
    localStorage.removeItem("superadmin_school");
+
+
+}
+const MentorNavigator=(e)=>
+{
+  
+   navigate('/Mentor');
+  
 
 
 }
 let decodeToken = jwt_decode(localStorage.getItem("auth_token"));
 let superAdmin_user=localStorage.getItem("superadmin_school");
 
- 
+const SchoolFormHandleSubmit=(e)=>
+{
+  e.preventDefault();
+  navigate('/AddSchool');
+}
 
+const TestHandleSubmit = (e) => {
+  e.preventDefault();
+  navigate('/AddTest');
+}
+
+const CurriculumNavigator = (e) => {
+  e.preventDefault();
+  navigate("/AddCurriculum");
+}
+ 
+const SubjectPageNavigator=(e)=>{
+  e.preventDefault();
+  navigate("/SubjectList");
+}
   return (
 
     <>
@@ -106,8 +142,10 @@ let superAdmin_user=localStorage.getItem("superadmin_school");
           <div className="menuItems-container">
             <div className='menu-item'>
             {
-                decodeToken.result.role=="superAdmin" &&
-                <button className='homeNavigate' onClick={HomepageNavigator}>
+                decodeToken.result.role=="SUPER_ADMIN" &&
+                <NavLink   onClick={HomepageNavigator} to="/superAdmin"  className='items' activeclassname="active" style={{
+                  textDecoration: "none", color: "white"
+                }}>
                 <div  className={isExpanded ? "item" : "item-toggle"} >
                 <div className='icon'>
                  <HomeOutlinedIcon/>
@@ -117,9 +155,9 @@ let superAdmin_user=localStorage.getItem("superadmin_school");
                 }
                
                </div>
-                </button>
-              }
-              {(decodeToken.result.role==="admin" || superAdmin_user!=null )  && menuItem.map((item, index) => {
+                </NavLink>
+              }               
+              {(decodeToken.result.role==="ADMIN" || superAdmin_user!=null )  && menuItem.map((item, index) => {
                 return (
                   <NavLink key={index} activeclassname="active" className='items' style={{
                     textDecoration: "none", color: "white"
@@ -130,6 +168,13 @@ let superAdmin_user=localStorage.getItem("superadmin_school");
                         isExpanded && (
                           <span activeclassname="active" className="link-text" >{item.name}</span>
                         )
+
+
+
+
+
+
+
                       }
                     </div>
                   </NavLink>
@@ -138,8 +183,26 @@ let superAdmin_user=localStorage.getItem("superadmin_school");
               })
               }
               
+               {
+                decodeToken.result.role==="SUPER_ADMIN" && 
+                localStorage.getItem("superadmin_school") != null &&
+                <NavLink to="/AddTest" onClick={TestHandleSubmit}  className='items' activeclassname="active" style={{
+                  textDecoration: "none", color: "white"
+                }}>
+                <div  className={isExpanded ? "item" : "item-toggle"} >
+                <div className='icon'>
+                  <AddCircleOutlineOutlinedIcon/>
+                </div>
+                {
+                  isExpanded &&  <span className='link-text'>Add Test</span>
+                }
+               
+               </div>
+                </NavLink>
+              }
+              
               {
-                decodeToken.result.role==="admin" &&
+                decodeToken.result.role==="ADMIN" &&
                 <button className='btn' onClick={logoutHandler}>
                 <div  className={isExpanded ? "item" : "item-toggle"} >
                 <div className='icon'>
@@ -152,9 +215,62 @@ let superAdmin_user=localStorage.getItem("superadmin_school");
                </div>
                 </button>
               }
+              
                {
-                decodeToken.result.role==="superAdmin" &&
-                <button className='btn' onClick={logoutHandlerSuperAdmin}>
+                decodeToken.result.role==="SUPER_ADMIN" && 
+                localStorage.getItem("superadmin_school") == null &&
+                <NavLink  className='items' activeclassname="active" style={{
+                  textDecoration: "none", color: "white"
+                }} onClick={SchoolFormHandleSubmit} to="/AddSchool">
+                <div  className={isExpanded ? "item" : "item-toggle"} >
+                <div className='icon'>
+                  <AddCircleOutlineOutlinedIcon/>
+                </div>
+                {
+                  isExpanded &&  <span className='link-text'>Add School</span>
+                }
+               
+               </div>
+                </NavLink>
+              }
+              {
+                decodeToken.result.role==="SUPER_ADMIN" &&  localStorage.getItem("superadmin_school") == null &&
+                <NavLink  className='items' activeclassname="active" style={{
+                  textDecoration: "none", color: "white"
+                }} onClick={CurriculumNavigator} to="/AddCurriculum">
+                <div  className={isExpanded ? "item" : "item-toggle"} >
+                <div className='icon'>
+                  <AddCircleOutlineOutlinedIcon/>
+                </div>
+                {
+                  isExpanded &&  <span className='link-text'>Curriculum</span>
+                }
+               
+               </div>
+                </NavLink>
+              }
+                {
+                decodeToken.result.role==="SUPER_ADMIN" &&  localStorage.getItem("superadmin_school") == null &&
+                <NavLink  className='items' activeclassname="active" style={{
+                  textDecoration: "none", color: "white"
+                }} onClick={MentorNavigator} to="/Mentor">
+                <div  className={isExpanded ? "item" : "item-toggle"} >
+                <div className='icon'>
+                  <AddCircleOutlineOutlinedIcon/>
+                </div>
+                {
+                  isExpanded &&  <span className='link-text'>Mentor</span>
+                }
+               
+               </div>
+                </NavLink>
+              }
+              
+               {
+                decodeToken.result.role==="SUPER_ADMIN" &&
+                <NavLink  className='items' activeclassname="active" style={{
+                  textDecoration: "none", color: "white"
+                }} to="/" onClick={logoutHandlerSuperAdmin}>
                 <div  className={isExpanded ? "item" : "item-toggle"} >
                 <div className='icon'>
                   <LogoutIcon/>
@@ -164,14 +280,10 @@ let superAdmin_user=localStorage.getItem("superadmin_school");
                 }
                
                </div>
-                </button>
-              }
-              
-            </div>
-           
-          
-          </div>
-
+                </NavLink>
+              } 
+            </div> 
+          </div> 
         </div>
       </div>
     </>

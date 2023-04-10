@@ -18,14 +18,14 @@ const Login = () => {
   const loginHandler = (e) => {
     e.preventDefault();
     if (userId != '' && password != '') {
-      axios.post("http://localhost:8080/user/login", { admin_id: userId, password: password }).then((res) => {
+      axios.post("https://school-management-api.azurewebsites.net/user/login", { username: userId, password: password }).then((res) => {
        
         localStorage.setItem("auth_token", res.data.token);
         let decodeToken = jwt_decode(localStorage.getItem("auth_token")); 
         setRole(decodeToken.result.role);
         setUserId("");
         setPassword("");
-       if(decodeToken.result.role!="admin")
+       if(decodeToken.result.role!="ADMIN")
         return navigate("/superAdmin");
         else return navigate("/dashboard")
 
@@ -86,7 +86,7 @@ const Login = () => {
             </div>
             <form onSubmit={loginHandler}>
               <div className="input-container">
-                <label>Admin Id</label>
+                <label>Username</label>
                 <input value={userId} placeholder='enter Your id...' onChange={(e) => setUserId(e.target.value)}></input>
               </div>
               <div className="input-container">
