@@ -13,15 +13,22 @@ import StudentePage from "./pages/StudentPage/Studentpage"
 import TeacherPage from "./pages/TeacherPage/TeacherPage"
 import ChangePassword from "./pages/ChangePassword/ChangePassword"
 import SuperAdmin from './pages/SuperAdmin/SuperAdmin';
+import SchoolForm from './pages/SchoolForm/SchoolForm';
+import TestForm from './pages/TestForm/TestForm';
+import Mentor from "./pages/Mentor/Mentor";
+import AddCurriculum from './pages/AddCurriculum/AddCurriculum';
+import SubjectList from "./components/SubjectLIst/Subject"
+import Mentors from './pages/MentorList/Mentors';
+import MentorsForm from './pages/MentorForm/MentorsForm';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 
 
 
 const App=()=>
 {
-    // gettinh student id from the student list page 
-    // for showing student inforamtion in the SingleStudentapage
-    // funtion for getting data from studentList page which is child of the app.js file
+    
     
 const [adminName,setAdminName]=useState("");
   const AdminNameHandler=(admin_name)=>
@@ -53,7 +60,9 @@ const [adminName,setAdminName]=useState("");
     }
     
     return (
-        <div>
+       
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+     
            <BrowserRouter>
         <Routes>
         <Route path='/' element={<Login/>}/>
@@ -79,12 +88,19 @@ const [adminName,setAdminName]=useState("");
          <Route path='AddTeacher' element={<TeacherForm AdminName={adminName}/>}/>
          <Route path='Notification' element={<Notification AdminName={adminName}/>}/>
         
-         
+         <Route path='AddSchool' element={<SchoolForm />}/>
+         <Route path='/AddTest' element={<TestForm />}/>
+         <Route path='/Mentor' element={<Mentors/>}/>   
+         <Route path='/AddMentor' element={<MentorsForm/>}/>        
+         <Route path='/AddCurriculum' element={<AddCurriculum/>}/>
          </Routes>
 
         </BrowserRouter> 
+      </LocalizationProvider>
+     
+   
         
-        </div>
+       
 
     );
 }

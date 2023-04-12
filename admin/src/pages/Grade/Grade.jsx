@@ -51,27 +51,29 @@ const Grade = (props) => {
   const [showButton, setShowButton] = useState(0);
   const [studenName, setStudentName] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
-  const [subject_list, setSubjectList] = useState([]);
+  const [subject_list, setSubjectList] = useState([]); 
+  
+  const [test_id, setTestid] = useState(0);
+  const [tempRow, setTempRow] = useState([]);
+  const markUploadHandler = (e) => {
+    e.preventDefault();
+    pushMarks(test_id);
+  } 
+  const [inputField, setInputField] = useState([]);
 
   let decodeToken = jwt_decode(localStorage.getItem("auth_token"));
-    let school_id = (localStorage.getItem("superadmin_school") === null)?decodeToken.result.school_id:localStorage.getItem("superadmin_school");
+  let school_id = (localStorage.getItem("superadmin_school") === null)?decodeToken.result.school_id:localStorage.getItem("superadmin_school");
 
   useEffect(() => {
-
-    const cachedData = localStorage.getItem(`school_${school_id}_allstudent`);
-
-    if (cachedData) {
-      setStudentRows(JSON.parse(cachedData));
-    } else {
-      axios.get(`http://localhost:8080/schools/${school_id}/allstudent`)
-        .then((data) => { 
-          console.log(data.data.allStudent);
+  
+      axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/allstudent`)
+        .then((data) => {  
           setStudentRows(data.data.allStudent); 
           localStorage.setItem(`school_${school_id}_allstudent`, JSON.stringify(data.data.allStudent));
         }).catch((err) => {
           console.log(err);
         })
-    }
+    
 
   }, [])
 
@@ -82,11 +84,10 @@ const Grade = (props) => {
     setOpenModal(true);
     setStudentId(row.id);
     setStudentName(row.student_name)
-  setClassId(row.class_id);
-    axios.get(`http://localhost:8080/schools/${school_id}/${row.class_id}/tests`)
-      .then((data) => {
+    setClassId(row.class_id);
+    axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/tests`)
+      .then((data) => { 
         setTest(data.data.testDetails);
-
       }).catch((err) => {
         console.log(err);
       })
@@ -97,15 +98,9 @@ const Grade = (props) => {
     setSubjectList([]);
     setTestid(0);
   }
-  const [test_id, setTestid] = useState(0);
-  const [tempRow, setTempRow] = useState([]);
-  const markUploadHandler = (e) => {
-    e.preventDefault();
-    pushMarks(test_id);
-  }
-
-  const handleDialogConfirm = () => {
-    axios.post(`http://localhost:8080/students/${student_id}/tests/${test_id}/uploadmarks`, {
+   
+  const handleDialogConfirm = () => { 
+    axios.post(`https://school-management-api.azurewebsites.net/students/${student_id}/tests/${test_id}/uploadmarks`, {
       inputField
     }).then((data) => {
 
@@ -152,37 +147,49 @@ const Grade = (props) => {
     setOpenDialog(true);
   }
 
-  const getSubjects = (test_id) => {
-
-    axios.get(`http://localhost:8080/student/${student_id}/getSubjects`)
-      .then((data) => {         
-        setSubjectList(data.data.allSubjects);
-
-        setShowButton(1);
-        data.data.allSubjects.map((item) => {
-          const data = {
-            mark_obtained: "",
-            total_marks: "",
-            subject_id: item.subject_id
-          }
-          tempRow.push(data);
-        })
-      }).catch((err) => {
-        console.log(err);
+  const getTestTotalMarks = () => {
+    return new Promise((resolve, reject) => { 
+      axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/${classId}/${test_id}/getTestTotalMarks`)
+      .then((data) => {
+        resolve(data.data.allTestData); 
+      }).catch((err)=>{
+        reject(err);
       })
+    })
   }
-  // console.log(subject_list)
+  
+  // for getting all testmarks
+  useEffect(() => {  
+    if(test_id !== 0){
+      axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/${classId}/${test_id}/getTestTotalMarks`)
+      .then((data) => { 
+        let testTotalMarks = data.data.allTestData;
+        console.log(data.data);
+        axios.get(`https://school-management-api.azurewebsites.net/student/${student_id}/getSubjects`)
+        .then((data) => {         
+          setSubjectList(data.data.allSubjects); 
+          setShowButton(1);
+          data.data.allSubjects.map((item) => { 
+            const data = {
+              mark_obtained: "",
+              total_marks: testTotalMarks.subject_marks[item.subject_id],
+              subject_id: item.subject_id
+            }
+            tempRow.push(data);
+          })
+          setInputField(tempRow);
+        }).catch((err) => {
+          console.log(err);
+        })
+      });
+    }     
+  },[test_id]);
+  
 
-  const [inputField, setInputField] = useState(tempRow)
-
-  const changeHandler = (index, e) => {
-    // console.log(e.target.value);
-
-
-    let data = [...inputField];
-    console.log(e.target.name);
-    data[index][e.target.name] = e.target.value;
-    console.log(data);
+  const changeHandler = (index, e) => { 
+ 
+    let data = [...inputField]; 
+    data[index][e.target.name] = e.target.value; 
     setInputField(data);
     setTempRow([]);
   }
@@ -234,10 +241,10 @@ const Grade = (props) => {
                         label="Test ID"
                         required
                         defaultValue=""
-                        onChange={(e) => { setTestid(e.target.value); getSubjects(test_id) }}>
+                        onChange={(e) => { setTestid(e.target.value); }}>
                         {test.map((option) => (
                           <MenuItem key={option.test_id} value={option.test_id}>
-                            {option.test_id}
+                            {option.test_name}
                           </MenuItem>
                         ))}
                       </TextField>
@@ -261,7 +268,8 @@ const Grade = (props) => {
                               <TextField
                                 name="total_marks"
                                 defaultValue=""
-                                value={tempRow[index]?.name}
+                                value={tempRow[index]?.total_marks}
+                                disabled
                                 onChange={(e) => changeHandler(index, e)}
                                 required label="Total Mark" variant="outlined" />
                             </div>
@@ -283,8 +291,7 @@ const Grade = (props) => {
   const [isExpanded, setExpanded] = useState(false);
   const isExpandedHandler = (value) => {
     setExpanded(value);
-  }
-  console.log(inputField);
+  } 
 
   return (
     <div className='grade-container ' >
@@ -326,7 +333,7 @@ const Grade = (props) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description">
           <DialogTitle id="alert-dialog-title">
-            {"Salary Update?"}
+            {"Grade Update?"}
           </DialogTitle>
 
           <DialogActions>

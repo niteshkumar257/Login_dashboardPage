@@ -3,6 +3,7 @@ import Sidebar from "../../components/Sidebar/Sidebar"
 import Navbar from "../../components/Navbar/Navbar"
 import "./DashBoard.scss"
 import Dashboard from "../../components/Dashboard/Dash"
+
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useEffect } from 'react'
@@ -39,6 +40,7 @@ const DashBoard = (props) => {
         >
         <Dashboard AdminNameHandler={adminNamehandler}/>
         </div>
+     
       </div>
     </div>
     </div>

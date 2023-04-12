@@ -1,22 +1,37 @@
+import { display } from '@mui/system'
 import React from 'react'
-import student1 from "../../assest/s1.png";
-
 import "./widgest.scss"
 
-const widgest = () => {
+const widgest = ({name,count,image}) => {
   return (
     <div className="widgest-container">
         <div className="left">
             <div className="title">
-                Student
+               {name}
             </div>
             <div className="count">
-                10000
+                 
+                 {
+                
+                    Array.isArray(count)==false ? count :
+                    <div className='count-container'>
+                         { count.map((item)=>(
+                            <div 
+                            className='count-subContainer'
+                            >
+                                 <p>{item}</p>
+                            </div>
+                     
+                    ))}
+                    </div>
+
+                  
+                 }
             </div>
         </div>
         <div className="right">
             <div className="icon">
-                <img src={student1}></img>
+                <img src={image}></img>
             </div>
         </div>
     </div>

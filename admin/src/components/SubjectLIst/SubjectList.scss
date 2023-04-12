@@ -35,7 +35,7 @@ $main-color:#1377C0;
                  border-radius: 9px;
               
            .teachers-info-detail-student-container{
-            box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+            
             border-radius: 9px;
             display: flex;
            flex-direction: column;
@@ -47,14 +47,14 @@ $main-color:#1377C0;
            gap: 12px;
 
            
-           .teachers-info-detail-student-container-subheading{
+           .subject-info-detail-student-container-subheading-subheading{
             width: 100%;
             display: flex;
             align-items: center;
             padding-left: 1rem;
            
            }
-           .teachers-info-detail-student-container-textfield{
+           .subject-info-detail-student-container-subheading-textfield{
            
             display: flex;
             flex-direction: column;
@@ -145,6 +145,25 @@ $main-color:#1377C0;
 
 }
 
-.viewButton{
-      margin-left: 10%;
+.subject-info-detail-student-container-subheading{
+  margin-bottom: 15px;
+  display: flex;
 }
+
+.subjects-info-section {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+  .subjects-info-section-subheading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    .subjects-info-section-subheading-textfield {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+}
+ 

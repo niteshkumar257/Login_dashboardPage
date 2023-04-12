@@ -35,6 +35,10 @@ const Month = [
     ]
   }
 ];
+const months = [
+  'Jan', 'Feb', 'March', 'April', 'May', 'June',
+  'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+];
 const Year = [
   { value: "2023", label: "2023" },
   { value: "2024", label: "2024" }
@@ -93,7 +97,7 @@ const SingleTeacherPage = (props) => {
   let teacher_id = params.TeacherId;
 
   const renderSalary = () => {
-    axios.get(`http://localhost:8080/teacher/${teacher_id}/paymentdetails`)
+    axios.get(`https://school-management-api.azurewebsites.net/teacher/${teacher_id}/paymentdetails`)
       .then((data) => {
         let allSalary = data.data.teacherDetails;
         let salary = [];
@@ -113,9 +117,9 @@ const SingleTeacherPage = (props) => {
   SalaryRow.map((value) => { if (value[1].year == curentYear) { MonthSort.push(value[1].month) } })
 
   const filteredMonths = Month.map(yearData => {
-    console.log(yearData.year)
+  
     if (yearData.year == curentYear) {
-      console.log(yearData.year, curentYear);
+     
       return {
         year: yearData.year, months: yearData.months.filter(month => !MonthSort.includes(month.value))
       }
@@ -125,14 +129,34 @@ const SingleTeacherPage = (props) => {
     }
   });
   const [newMonths, setNewMonths] = useState([]);
-  const yearSelectHandler = (e) => {
+
+  
+  const yearSelectHandler = async (e) => {
     setYear(e.target.value);
-    filteredMonths.map((item) => {
-      if (e.target.value === item.year) {
-        console.log(year, item, year);
-        setNewMonths(item.months)
+    let todayDate=new Date();
+    let currentYear=todayDate.getFullYear();
+   
+     filteredMonths.map((item)=>
+     {
+      if(e.target.value == item.year)
+      {
+         if(e.target.value == currentYear)
+         {
+          let  newdate = new Date(date);
+                  const year = newdate.getFullYear(); 
+                  const month = newdate.getMonth();
+                 const monthsUntil = months.slice(0, month);
+                 let filteredArray=item.months?.filter(obj => !monthsUntil.includes(obj.value));console.log(filteredArray)
+                  setNewMonths(filteredArray);
+                
+                
+         }else 
+        setNewMonths(item.months);
       }
-    })
+      
+        
+         
+     })
   }
   const salaryAmountHandler = (e) => {
     if (e.target.value < 0) {
@@ -148,7 +172,7 @@ const SingleTeacherPage = (props) => {
     if (amount > 0) {
 
       if (year.length != 0 && month.length != 0 && amount.length != 0) {
-        axios.post(`http://localhost:8080/teacher/${teacher_id}/updatepayment`, {
+        axios.post(`https://school-management-api.azurewebsites.net/teacher/${teacher_id}/updatepayment`, {
           amount, month, year
         })
 
@@ -212,7 +236,7 @@ const SingleTeacherPage = (props) => {
   }
   useEffect(() => {
     console.log(teacher_id)
-    axios.get(`http://localhost:8080/teacher/${teacher_id}`)
+    axios.get(`https://school-management-api.azurewebsites.net/teacher/${teacher_id}`)
       .then((data) => {
         console.log(data.data)
         setName(data.data.teacherDetails[0].teacher_name);
@@ -221,7 +245,9 @@ const SingleTeacherPage = (props) => {
         setSalary(data.data.teacherDetails[0].salary);
         setCity(data.data.teacherDetails[0].city);
         setAadharCard(data.data.teacherDetails[0].aadhar_no);
-        setDate(data.data.teacherDetails[0].date_of_joining.slice(0, 10))
+        let dateString = data.data.teacherDetails[0].date_of_joining;
+        let date = dateString.slice(8,10) + "-" + dateString.slice(5,7) + "-" + dateString.slice(0,4);
+        setDate(date.slice(0, 10))
         setWorkExp(data.data.teacherDetails[0].experience);
         setGender(data.data.teacherDetails[0].gender);
         setMedium(data.data.teacherDetails[0].medium)
@@ -304,10 +330,9 @@ const SingleTeacherPage = (props) => {
                 <h1>Salary Details</h1>
               </div>
               <div className='student-info-container-body'>
-                {rows.length == 0 ? <p>No data found</p> : <Table rows={rows} columns={columns} />}
+                 <Table rows={rows} columns={columns} />
               </div>
-              {
-                rows.length != 0 &&
+              {               
                 <div className='btn'>
                   <button onClick={handleOpen}>Update Salary</button>
                   {openModal && <Modal

@@ -26,12 +26,9 @@ const Student = (props) => {
   let school_id = (localStorage.getItem("superadmin_school") === null)?decodeToken.result.school_id:localStorage.getItem("superadmin_school");
 
   useEffect(() => {
-    const cachedData = localStorage.getItem(`school_${school_id}_allstudent`);
-
-    if (cachedData) {
-      setRows(JSON.parse(cachedData));
-    } else {
-      axios.get(`http://localhost:8080/schools/${school_id}/allstudent`)
+   
+    
+      axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}/allstudent`)
         .then((data) => { 
           console.log(data.data.allStudent);
           setRows(data.data.allStudent); 
@@ -39,7 +36,7 @@ const Student = (props) => {
         }).catch((err) => {
           console.log(err);
         })
-    }
+    
   }, [])
 
   const handleSelect = (id) => {

@@ -104,12 +104,12 @@ console.log(school_id);
     }
   ]
     useEffect(() => {
-        axios.get(`http://localhost:8080/schools`,{headers: { 'Content-Type': 'application/json'}}).then((res) => {
+        axios.get(`https://school-management-api.azurewebsites.net/schools`,{headers: { 'Content-Type': 'application/json'}}).then((res) => {
            const data=res.data.allSchool;
            const newData=ChangeDataFormat(data);
            console.log(newData);
              setRows(newData);  
-         axios.get(`http://localhost:8080/schools/${school_id}`).then((data) => {
+         axios.get(`https://school-management-api.azurewebsites.net/schools/${school_id}`).then((data) => {
           console.log(data);
          })
         
